@@ -23,7 +23,7 @@ import vn.iotstar.utescore.repository.BookingRepository;
 import vn.iotstar.utescore.services.BookingService;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/admin/")
 public class AdminController {
 	
 	@Autowired
@@ -31,7 +31,7 @@ public class AdminController {
 	
 	@Autowired private BookingService bookingService;
 	
-	@RequestMapping("/admin")
+	@RequestMapping("/")
 	public String manageFields(@RequestParam(value = "selectedDate", required = false) LocalDate selectedDate, Model model) {
 	    // Nếu selectedDate không có giá trị, gán giá trị mặc định là ngày hiện tại
 	    if (selectedDate == null) {
