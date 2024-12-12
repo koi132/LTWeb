@@ -3,17 +3,24 @@ package vn.iotstar.utescore.adminController;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.apache.el.stream.Optional;
 import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import vn.iotstar.utescore.entity.Booking;
 import vn.iotstar.utescore.repository.BookingRepository;
+import vn.iotstar.utescore.services.BookingService;
 
 @Controller
 @RequestMapping("/")
@@ -22,7 +29,7 @@ public class AdminController {
 	@Autowired
     private BookingRepository bookingRepository;
 	
-	
+	@Autowired private BookingService bookingService;
 	
 	@RequestMapping("/admin")
 	public String manageFields(@RequestParam(value = "selectedDate", required = false) LocalDate selectedDate, Model model) {
@@ -121,6 +128,28 @@ public class AdminController {
 	    // Trả về trang kết quả tìm kiếm
 	    return "admin/search"; // Tên trang hiển thị kết quả tìm kiếm
 	}
+
+	@PostMapping("/updateStatus")
+	public @ResponseBody Map<String, Object> updateBookingStatus(@RequestParam("bookingID") int bookingID, 
+	                                                             @RequestParam("bookingCode") String bookingCode) {
+	    Map<String, Object> response = new HashMap<>();  // Tạo đối tượng Map để chứa kết quả
+	    Booking booking = bookingService.updateBookingStatus(bookingID, bookingCode);  // Cập nhật trạng thái đặt sân
+
+	    if (booking != null) {
+	        response.put("success", true);  // Thêm thông tin vào Map
+	        response.put("message", "Trạng thái đã được cập nhật.");
+	    } else {
+	        response.put("success", false);
+	        response.put("message", "Mã booking không hợp lệ.");
+	    }
+
+	    return response;  // Trả về phản hồi dạng JSON
+	}
+
+
+
+
+
 
 
 

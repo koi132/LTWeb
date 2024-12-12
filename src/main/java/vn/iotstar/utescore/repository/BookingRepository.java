@@ -34,5 +34,9 @@ List<Booking> findBookingsForCurrentTime(@Param("date") LocalDate date, @Param("
 
  // Tìm kiếm Booking theo tên khách hàng hoặc số điện thoại
     List<Booking> findByCustomerNameContainingIgnoreCaseOrPhone(String customerName, String phone);
+    
+    Optional<Booking> findByBookingCode(String bookingCode);
+ // Tìm Booking theo BookingID
+    Optional<Booking> findById(int bookingID);
  
 }

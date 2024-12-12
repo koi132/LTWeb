@@ -378,7 +378,11 @@
 									<span th:if="${field != null}">
 										Tên khách hàng: [[${field.customerName}]]<br>
 										SĐT: [[${field.phone}]]<br>
-										Thời gian: [[${field.startTime}]] - [[${field.endTime}]]
+										Thời gian: [[${field.startTime}]] - [[${field.endTime}]]<br>
+										 Trạng thái: <span class="status" 
+                            th:text="${field.status}" 
+                            th:data-booking-id="${field.bookingID}"
+                            onclick="checkBookingCode(this.getAttribute('data-booking-id'))"></span><br>
 									</span>
 									<span th:if="${field == null}">
 										<a th:href="@{/admin}" style="color: #007bff;">Sân trống</a>
@@ -387,6 +391,41 @@
 							</div>
 						</div>
 					</div>
+
+					<script>
+    function checkBookingCode(bookingID) {
+        var bookingCode = prompt("Nhập mã đặt sân:");
+        
+        if (bookingCode != null && bookingCode !== "") {
+            // Kiểm tra bookingID có phải là giá trị hợp lệ không
+            if (isNaN(bookingID)) {
+                alert("Mã sân không hợp lệ.");
+                return;
+            }
+
+            fetch(`/updateStatus?bookingID=${bookingID}&bookingCode=${bookingCode}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);  // Hiển thị thông báo thành công
+                    location.reload();  // Tải lại trang để cập nhật trạng thái
+                } else {
+                    alert(data.message);  // Thông báo lỗi nếu bookingCode không hợp lệ
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra!');
+            });
+        }
+    }
+</script>
+
 
 					<div class="calendar">
 						<h3>Lịch sân bóng</h3>
@@ -404,32 +443,31 @@
 
 
 						<!-- Lịch xem các sân đã đặt -->
-						<div class="calendar">
-							<h3>Lịch sân bóng</h3>
-							<table class="calendar-table">
-								<thead>
-									<tr>
-										<th>Ngày</th>
-										<th>Sân</th>
-										<th>Khách hàng</th>
-										<th>Điện thoại</th>
-										<th>Thời gian</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr th:each="booking : ${Datebookings}">
-										<td th:text="${booking.bookingDate}"></td>
-										<td th:text="${booking.thongTinSan.fieldName}"></td>
-										<td th:text="${booking.customerName}"></td>
-										<td th:text="${booking.phone}"></td>
-										<td th:text="${booking.startTime} + ' - ' + ${booking.endTime}"></td>
-									</tr>
-								</tbody>
-							</table>
-						
 
-				
-				
+						<table class="calendar-table">
+							<thead>
+								<tr>
+									<th>Ngày</th>
+									<th>Sân</th>
+									<th>Khách hàng</th>
+									<th>Điện thoại</th>
+									<th>Thời gian</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="booking : ${Datebookings}">
+									<td th:text="${booking.bookingDate}"></td>
+									<td th:text="${booking.thongTinSan.fieldName}"></td>
+									<td th:text="${booking.customerName}"></td>
+									<td th:text="${booking.phone}"></td>
+									<td th:text="${booking.startTime} + ' - ' + ${booking.endTime}"></td>
+								</tr>
+							</tbody>
+						</table>
+
+
+
+
 						<style>
 							body {
 								font-family: Arial, sans-serif;
@@ -500,6 +538,11 @@
 							.calendar-table th {
 								background-color: #f8f9fa;
 							}
+
+							.status {
+								color: blue;
+								cursor: pointer;
+							}
 						</style>
 
 
@@ -513,7 +556,7 @@
 					</div>
 					<!-- End of Main Content -->
 
-					
+
 
 				</div>
 				<!-- End of Content Wrapper -->

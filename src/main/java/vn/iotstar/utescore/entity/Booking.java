@@ -1,13 +1,15 @@
 package vn.iotstar.utescore.entity;
+
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "Booking")
 public class Booking {
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BookingID")
     private int bookingID;
@@ -31,6 +33,12 @@ public class Booking {
     @Column(name = "EndTime", nullable = false)
     private LocalTime endTime;
 
+    @Column(name = "booking_code", nullable = false, unique = true, length = 10)
+    private String  bookingCode;
+
+    @Column(name = "status", nullable = false, length = 20)
+    private String status = "Chưa nhận sân";
+
     // Constructors
     public Booking() {
     }
@@ -42,6 +50,7 @@ public class Booking {
         this.bookingDate = bookingDate;
         this.startTime = startTime;
         this.endTime = endTime;
+        this. bookingCode = generateBookingCode();
     }
 
     // Getters and Setters
@@ -101,11 +110,35 @@ public class Booking {
         this.endTime = endTime;
     }
 
-	@Override
-	public String toString() {
-		return "Booking [bookingID=" + bookingID + ", thongTinSan=" + thongTinSan + ", customerName=" + customerName
-				+ ", phone=" + phone + ", bookingDate=" + bookingDate + ", startTime=" + startTime + ", endTime="
-				+ endTime + "]";
-	}
-    
+    public String getBooking_code() {
+        return  bookingCode;
+    }
+
+    public void setBooking_code(String booking_code) {
+        this. bookingCode =  bookingCode;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this. bookingCode = generateBookingCode();
+    }
+
+    private String generateBookingCode() {
+        return UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    }
+
+    @Override
+    public String toString() {
+        return "Booking [bookingID=" + bookingID + ", thongTinSan=" + thongTinSan + ", customerName=" + customerName
+                + ", phone=" + phone + ", bookingDate=" + bookingDate + ", startTime=" + startTime + ", endTime="
+                + endTime + ", booking_code=" +  bookingCode + ", status=" + status + "]";
+    }
 }
