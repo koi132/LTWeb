@@ -1,14 +1,15 @@
 package vn.iotstar.utescore.controller.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller; // Đổi @RestController thành @Controller
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import vn.iotstar.utescore.entity.Payment;
 import vn.iotstar.utescore.services.PaymentService;
 
 import java.util.List;
 
-@RestController
+@Controller // Đổi @RestController thành @Controller
 @RequestMapping("/user/payment")
 public class PaymentController {
 
@@ -16,26 +17,33 @@ public class PaymentController {
 	private PaymentService paymentService;
 
 	@PostMapping
-	public ResponseEntity<Payment> createPayment(@RequestBody Payment payment) {
-		Payment createdPayment = paymentService.createPayment(payment);
-		return ResponseEntity.ok(createdPayment);
+	@ResponseBody // Dùng @ResponseBody để trả về JSON cho API POST
+	public Payment createPayment(@RequestBody Payment payment) {
+		return paymentService.createPayment(payment);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Payment> getPaymentById(@PathVariable Integer id) {
-		Payment payment = paymentService.getPaymentById(id);
-		return ResponseEntity.ok(payment);
+	@ResponseBody // Dùng @ResponseBody để trả về JSON cho API GET /{id}
+	public Payment getPaymentById(@PathVariable Integer id) {
+		return paymentService.getPaymentById(id);
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Payment>> getAllPayments() {
-		List<Payment> payments = paymentService.getAllPayments();
-		return ResponseEntity.ok(payments);
+	@ResponseBody // Dùng @ResponseBody để trả về JSON cho API GET tất cả payments
+	public List<Payment> getAllPayments() {
+		return paymentService.getAllPayments();
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deletePayment(@PathVariable Integer id) {
+	@ResponseBody // Dùng @ResponseBody để trả về JSON cho API DELETE
+	public void deletePayment(@PathVariable Integer id) {
 		paymentService.deletePayment(id);
-		return ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/list")
+	public String listPayments(Model model) {
+		List<Payment> payments = paymentService.getAllPayments();
+		model.addAttribute("payments", payments);
+		return "user/payment-list"; // Trả về tên file HTML
 	}
 }
