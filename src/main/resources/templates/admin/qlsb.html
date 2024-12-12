@@ -363,16 +363,18 @@
 				<!-- End of Topbar -->
 
 				<!-- Begin Page Content -->
-				<div class="container-fluid">
 
-					<div class="container-fluid mb-5">
-					<div class="card shadow mx-auto" style="max-width: 1000px;">
-						<div class="card-header py-4" style="background: linear-gradient(45deg, #4e73df, #224abe);">
-							<h6 class="m-0 font-weight-bold text-white text-center" style="font-size: 1.3rem;">Tạo sân
-								bóng mới</h6>
-						</div>
-						<div class="card-body py-4" style="background-color: #f8f9fc;">
-							<form id="createFieldForm" action="/admin/create-field" method="POST"
+				<div class="container-fluid mb-5">
+					<div class="card mx-auto border-0" style="max-width: 1000px;">
+						<div class="card-body py-4">
+							<!-- Button to show the form -->
+							<div class="mb-4">
+								<button id="showFormButton" class="btn custom-button">
+									<i class="fas fa-plus"></i> Tạo sân bóng mới
+								</button>
+							</div>
+							<!-- Hidden form for creating a new field -->
+							<form id="createFieldForm" action="/admin/add-yard" method="POST"
 								class="row justify-content-center">
 								<div class="col-md-4 mb-4">
 									<label for="fieldName" class="form-label">Tên sân</label>
@@ -390,20 +392,44 @@
 								</div>
 								<div class="col-md-4 mb-4 d-flex align-items-end justify-content-center">
 									<button type="submit" class="btn custom-button">
-										<i class="fas fa-plus"></i> Tạo sân
+										<i class="fas fa-check"></i> Tạo sân
 									</button>
 								</div>
 							</form>
+
 						</div>
 					</div>
 				</div>
 
-				<style>
-					#createFieldForm .form-control {
-						height: 45px;
-						font-size: 1.1rem;
-					}
+				<script>
+					const showFormButton = document.getElementById('showFormButton');
+					const createFieldForm = document.getElementById('createFieldForm');
 
+					// Handle the "Tạo sân bóng mới" button click
+					showFormButton.addEventListener('click', function () {
+						if (createFieldForm.style.display === 'none') {
+							createFieldForm.style.display = 'flex'; // Show the form
+							showFormButton.style.display = 'none'; // Hide the button
+						}
+					});
+
+					// Handle the form submission
+					createFieldForm.addEventListener('submit', function (e) {
+						e.preventDefault(); // Prevent default form submission
+
+						// Handle form data here if needed
+						alert('Sân bóng đã được tạo thành công!');
+
+						// Hide the form and show the button again
+						createFieldForm.style.display = 'none';
+						showFormButton.style.display = 'inline-block';
+
+						// Optionally reset the form inputs
+						createFieldForm.reset();
+					});
+				</script>
+
+				<style>
 					.custom-input {
 						border: 2px solid #e3e6f0;
 						border-radius: 10px;
@@ -418,7 +444,7 @@
 					}
 
 					.custom-button {
-						background: linear-gradient(45deg, #4e73df, #224abe);
+						background: #4e73df;
 						color: white;
 						height: 45px;
 						padding: 0 35px;
@@ -430,7 +456,7 @@
 					}
 
 					.custom-button:hover {
-						background: linear-gradient(45deg, #224abe, #1a3891);
+						background: #224abe;
 						color: white;
 						transform: translateY(-2px);
 						box-shadow: 0 4px 12px rgba(78, 115, 223, 0.4);
@@ -452,15 +478,24 @@
 					}
 
 					.card {
-						border: none;
-						border-radius: 15px;
-						box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+						box-shadow: none;
+						/* Remove shadow */
+						background: none;
+						/* Remove background */
 					}
 
-					.card-body {
-						padding: 2rem;
+					#showFormButton {
+						display: inline-block;
+						/* Ensure button alignment */
+					}
+
+					.mb-4 {
+						text-align: left;
+						/* Align button to the left */
 					}
 				</style>
+
+
 
 				<h1>Quản lý sân bóng</h1>
 
