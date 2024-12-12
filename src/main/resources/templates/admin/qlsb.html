@@ -66,7 +66,7 @@
 				<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
 					<div class="bg-white py-2 collapse-inner rounded">
 						<h6 class="collapse-header">Custom Components:</h6>
-						<a class="collapse-item" href="admin/AddYard">Thêm sân mới</a>
+						<a class="collapse-item" href="/add">Thêm sân mới</a>
 						<a class="collapse-item" href="/admin">Sân bóng</a>
 					</div>
 				</div>
@@ -142,14 +142,7 @@
 				<button class="rounded-circle border-0" id="sidebarToggle"></button>
 			</div>
 
-			<!-- Sidebar Message -->
-			<div class="sidebar-card d-none d-lg-flex">
-				<img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
-				<p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components,
-					and more!</p>
-				<a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to
-					Pro!</a>
-			</div>
+			
 
 		</ul>
 		<!-- End of Sidebar -->
@@ -365,137 +358,27 @@
 				<!-- Begin Page Content -->
 
 				<div class="container-fluid mb-5">
-					<div class="card mx-auto border-0" style="max-width: 1000px;">
-						<div class="card-body py-4">
-							<!-- Button to show the form -->
-							<div class="mb-4">
-								<button id="showFormButton" class="btn custom-button">
-									<i class="fas fa-plus"></i> Tạo sân bóng mới
-								</button>
-							</div>
-							<!-- Hidden form for creating a new field -->
-							<form id="createFieldForm" action="/admin/add-yard" method="POST"
-								class="row justify-content-center">
-								<div class="col-md-4 mb-4">
-									<label for="fieldName" class="form-label">Tên sân</label>
-									<input type="text" class="form-control custom-input" id="fieldName" name="fieldName"
-										required>
-								</div>
-								<div class="col-md-4 mb-4">
-									<label for="fieldType" class="form-label">Loại sân</label>
-									<select class="form-control custom-input" id="fieldType" name="fieldType" required>
-										<option value="">Chọn loại sân</option>
-										<option value="5">Sân 5</option>
-										<option value="7">Sân 7</option>
-										<option value="11">Sân 11</option>
-									</select>
-								</div>
-								<div class="col-md-4 mb-4 d-flex align-items-end justify-content-center">
-									<button type="submit" class="btn custom-button">
-										<i class="fas fa-check"></i> Tạo sân
-									</button>
-								</div>
-							</form>
-
-						</div>
-					</div>
-				</div>
-
-				<script>
-					const showFormButton = document.getElementById('showFormButton');
-					const createFieldForm = document.getElementById('createFieldForm');
-
-					// Handle the "Tạo sân bóng mới" button click
-					showFormButton.addEventListener('click', function () {
-						if (createFieldForm.style.display === 'none') {
-							createFieldForm.style.display = 'flex'; // Show the form
-							showFormButton.style.display = 'none'; // Hide the button
-						}
-					});
-
-					// Handle the form submission
-					createFieldForm.addEventListener('submit', function (e) {
-						e.preventDefault(); // Prevent default form submission
-
-						// Handle form data here if needed
-						alert('Sân bóng đã được tạo thành công!');
-
-						// Hide the form and show the button again
-						createFieldForm.style.display = 'none';
-						showFormButton.style.display = 'inline-block';
-
-						// Optionally reset the form inputs
-						createFieldForm.reset();
-					});
-				</script>
-
-				<style>
-					.custom-input {
-						border: 2px solid #e3e6f0;
-						border-radius: 10px;
-						transition: all 0.3s ease;
-						background-color: #fff;
-						padding: 10px 15px;
-					}
-
-					.custom-input:focus {
-						border-color: #4e73df;
-						box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
-					}
-
-					.custom-button {
-						background: #4e73df;
-						color: white;
-						height: 45px;
-						padding: 0 35px;
-						border-radius: 10px;
-						border: none;
-						transition: all 0.3s ease;
-						font-weight: 500;
-						font-size: 1.1rem;
-					}
-
-					.custom-button:hover {
-						background: #224abe;
-						color: white;
-						transform: translateY(-2px);
-						box-shadow: 0 4px 12px rgba(78, 115, 223, 0.4);
-					}
-
-					#createFieldForm label {
-						font-weight: 500;
-						color: #4e73df;
-						margin-bottom: 0.8rem;
-						font-size: 1.1rem;
-					}
-
-					.custom-input:hover {
-						border-color: #4e73df;
-					}
-
-					select.custom-input {
-						cursor: pointer;
-					}
-
-					.card {
-						box-shadow: none;
-						/* Remove shadow */
-						background: none;
-						/* Remove background */
-					}
-
-					#showFormButton {
-						display: inline-block;
-						/* Ensure button alignment */
-					}
-
-					.mb-4 {
-						text-align: left;
-						/* Align button to the left */
-					}
-				</style>
+					
+					<div class="container-fluid">
+    <!-- Nav Item - Tạo sân mới -->
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item no-arrow mx-1">
+            <!-- Chuyển trang khi nhấn vào "Tạo Sân Mới" -->
+            <a class="nav-link" href="/add">
+                <i class="fas fa-plus-circle fa-fw"></i> Tạo Sân Mới
+            </a>
+        </li>
+    </ul>
+</div>
 
 
+				
+					
+				
+
+				
+
+				
 
 				<h1>Quản lý sân bóng</h1>
 

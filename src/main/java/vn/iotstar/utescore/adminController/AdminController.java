@@ -23,7 +23,9 @@ import vn.iotstar.utescore.entity.Booking;
 import vn.iotstar.utescore.entity.Thongtinsan;
 import vn.iotstar.utescore.repository.BookingRepository;
 import vn.iotstar.utescore.services.BookingService;
-import vn.iotstar.utescore.services.ThongtinsanService;
+import vn.iotstar.utescore.services.ThongTinSanService;
+
+
 
 @Controller
 @RequestMapping("/")
@@ -34,6 +36,9 @@ public class AdminController {
 
 	@Autowired
 	private BookingService bookingService;
+	
+	@Autowired
+    private ThongTinSanService thongTinSanService;
 
 	@RequestMapping("/admin")
 	public String manageFields(@RequestParam(value = "selectedDate", required = false) LocalDate selectedDate,
@@ -51,7 +56,7 @@ public class AdminController {
 		java.util.List<Booking> bookings = bookingRepository.findBookingsForCurrentTime(currentDate, currentTime);
 
 		// Mảng để lưu trạng thái của 5 sân
-		Booking[] fields = new Booking[5];
+		Booking[] fields = new Booking[20];
 
 		// Lặp qua các booking và gán chúng vào các sân tương ứng
 		for (Booking booking : bookings) {
@@ -86,6 +91,7 @@ public class AdminController {
 		model.addAttribute("Datebookings", Datebookings);
 		model.addAttribute("selectedDate", selectedDate);
 
+		
 		return "admin/qlsb"; // Trang hiển thị
 	}
 
@@ -140,40 +146,19 @@ public class AdminController {
 		return "admin/search"; // Tên trang hiển thị kết quả tìm kiếm
 	}
 
-	@PostMapping("/updateStatus")
-	public @ResponseBody Map<String, Object> updateBookingStatus(@RequestParam("bookingID") int bookingID,
-			@RequestParam("bookingCode") String bookingCode) {
-		Map<String, Object> response = new HashMap<>(); // Tạo đối tượng Map để chứa kết quả
-		Booking booking = bookingService.updateBookingStatus(bookingID, bookingCode); // Cập nhật trạng thái đặt sân
-
-		if (booking != null) {
-			response.put("success", true); // Thêm thông tin vào Map
-			response.put("message", "Trạng thái đã được cập nhật.");
-		} else {
-			response.put("success", false);
-			response.put("message", "Mã booking không hợp lệ.");
-		}
-
-		return response; // Trả về phản hồi dạng JSON
-	}
-
-	@RequestMapping("/admin/AddYard")
-	public String AddYard() {
-		return "admin/AddYard";
+	@GetMapping("/add")
+    public String showAddYardPage() {
+        return "admin/AddYard";  // Trả về file AddYard.html
+    }
+	@PostMapping("/add1")
+	public String addThongTinSan(@RequestParam String fieldName, @RequestParam String type) {
+	    // Thêm thông tin sân vào cơ sở dữ liệu
+	    thongTinSanService.addThongTinSan(fieldName, type);
+	    
+	    // Chuyển hướng đến trang quản lý sân sau khi thêm
+	    return "redirect:/admin";  // Sử dụng redirect để chuyển hướng đến trang quản lý sân
 	}
 
 	
-	@Autowired
-    private ThongtinsanService thongtinsanService;
-	
-	@PostMapping("/admin/add-yard")
-	public String addYard(@ModelAttribute Thongtinsan thongtinsan, Model model) {
-		// Lưu thông tin sân vào cơ sở dữ liệu
-		thongtinsanService.addField(thongtinsan);
-
-		// Trả về trang quản lý sân (có thể thay đổi tùy logic)
-		model.addAttribute("message", "Thêm sân bóng thành công!");
-		return "redirect:/admin/qlsb"; // Điều hướng về trang quản lý sân
-	}
 
 }
