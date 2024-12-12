@@ -1,10 +1,94 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>thêm sân </title>
-</head>
-<body>
- <h1>thêm sân</h1>
-</body>
-</html>
+<!-- Field Creation Form -->
+<div class="container-fluid mb-5">
+	<div class="card shadow mx-auto" style="max-width: 1000px;">
+		<div class="card-header py-4" style="background: linear-gradient(45deg, #4e73df, #224abe);">
+			<h6 class="m-0 font-weight-bold text-white text-center" style="font-size: 1.3rem;">Tạo sân bóng mới</h6>
+		</div>
+		<div class="card-body py-4" style="background-color: #f8f9fc;">
+			<form id="createFieldForm" action="/admin/create-field" method="POST" class="row justify-content-center">
+				<div class="col-md-4 mb-4">
+					<label for="fieldName" class="form-label">Tên sân</label>
+					<input type="text" class="form-control custom-input" id="fieldName" name="fieldName" required>
+				</div>
+				<div class="col-md-4 mb-4">
+					<label for="fieldType" class="form-label">Loại sân</label>
+					<select class="form-control custom-input" id="fieldType" name="fieldType" required>
+						<option value="">Chọn loại sân</option>
+						<option value="5">Sân 5</option>
+						<option value="7">Sân 7</option>
+						<option value="11">Sân 11</option>
+					</select>
+				</div>
+				<div class="col-md-4 mb-4 d-flex align-items-end justify-content-center">
+					<button type="submit" class="btn custom-button">
+						<i class="fas fa-plus"></i> Tạo sân
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<style>
+	#createFieldForm .form-control {
+		height: 45px;
+		font-size: 1.1rem;
+	}
+
+	.custom-input {
+		border: 2px solid #e3e6f0;
+		border-radius: 10px;
+		transition: all 0.3s ease;
+		background-color: #fff;
+		padding: 10px 15px;
+	}
+
+	.custom-input:focus {
+		border-color: #4e73df;
+		box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+	}
+
+	.custom-button {
+		background: linear-gradient(45deg, #4e73df, #224abe);
+		color: white;
+		height: 45px;
+		padding: 0 35px;
+		border-radius: 10px;
+		border: none;
+		transition: all 0.3s ease;
+		font-weight: 500;
+		font-size: 1.1rem;
+	}
+
+	.custom-button:hover {
+		background: linear-gradient(45deg, #224abe, #1a3891);
+		color: white;
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px rgba(78, 115, 223, 0.4);
+	}
+
+	#createFieldForm label {
+		font-weight: 500;
+		color: #4e73df;
+		margin-bottom: 0.8rem;
+		font-size: 1.1rem;
+	}
+
+	.custom-input:hover {
+		border-color: #4e73df;
+	}
+
+	select.custom-input {
+		cursor: pointer;
+	}
+
+	.card {
+		border: none;
+		border-radius: 15px;
+		box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+	}
+
+	.card-body {
+		padding: 2rem;
+	}
+</style>

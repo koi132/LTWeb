@@ -147,7 +147,10 @@ public class AdminController {
 	}
 
 
-
+	@RequestMapping("admin/AddYard")
+	public String AddYard () {
+		return "admin/AddYard";
+	}
 
 
 
