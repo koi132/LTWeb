@@ -2,6 +2,7 @@ package vn.iotstar.utescore.services;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,4 +44,25 @@ public class BookingService {
     public List<Booking> searchBookings(String customerName, String phone) {
         return bookingRepository.findByCustomerNameContainingIgnoreCaseOrPhone(customerName, phone);
     }
+    
+    public Optional<Booking> findByBookingCode(String booking_code) {
+        return bookingRepository.findByBookingCode(booking_code);
+    }
+
+    public Booking updateBookingStatus(int bookingID, String bookingCode) {
+        // Tìm booking theo BookingID
+        Optional<Booking> optionalBooking = bookingRepository.findById(bookingID);
+        
+        // Kiểm tra booking có tồn tại và bookingCode có khớp không
+        if (optionalBooking.isPresent()) {
+            Booking booking = optionalBooking.get();
+            if (booking.getBooking_code().equals(bookingCode)) {
+                // Cập nhật trạng thái booking
+                booking.setStatus("Đã nhận sân");
+                return bookingRepository.save(booking);  // Lưu trạng thái mới vào DB
+            }
+        }
+        return null;  // Nếu không tìm thấy hoặc bookingCode không đúng
+    }
+
 }
