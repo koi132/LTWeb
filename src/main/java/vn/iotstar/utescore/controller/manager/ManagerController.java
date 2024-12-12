@@ -1,4 +1,4 @@
-package vn.iotstar.utescore.adminController;
+package vn.iotstar.utescore.controller.manager;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,7 +29,7 @@ import vn.iotstar.utescore.services.ThongTinSanService;
 
 @Controller
 @RequestMapping("/")
-public class AdminController {
+public class ManagerController {
 
 	@Autowired
 	private BookingRepository bookingRepository;
