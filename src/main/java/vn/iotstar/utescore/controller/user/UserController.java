@@ -1,17 +1,19 @@
 package vn.iotstar.utescore.controller.user;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import vn.iotstar.utescore.entity.Thongtinsan;
 import vn.iotstar.utescore.services.ThongTinSanService;
 
 @Controller
 @RequestMapping("/")
+@CrossOrigin(origins = "*")
 public class UserController {
 	@Autowired
 	private ThongTinSanService thongTinSanService;
@@ -26,9 +28,16 @@ public class UserController {
 		return "user/sanbong-list";
 	}
 	
-    @GetMapping("/api/cacsan") 
-    @ResponseBody
-    public List<Thongtinsan> getAllFields() {
-        return thongTinSanService.getAllFields();
-    }
+	 @GetMapping("/api/cacsan")
+	    public ResponseEntity<List<Thongtinsan>> getAllFields() {
+	        List<Thongtinsan> fields = thongTinSanService.getAllFields();
+	        
+	        // Kiểm tra nếu danh sách rỗng
+	        if (fields.isEmpty()) {
+	            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	        }
+	        
+	        return new ResponseEntity<>(fields, HttpStatus.OK);
+	    }
+
 }

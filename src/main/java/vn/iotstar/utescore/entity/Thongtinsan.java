@@ -20,8 +20,11 @@ public class Thongtinsan {
     @Column(name = "Price", nullable = false, columnDefinition = "float default 0")
     private double price;
 
-    @Column(name = "Detail", length = 255)  // Có thể điều chỉnh độ dài tùy thuộc vào yêu cầu
-    private String detail;  // Thêm thuộc tính detail
+    @Column(name = "Detail", length = 255)  
+    private String detail; 
+    
+    @Column(name = "Status", nullable = false, length = 50)
+    private String status;
 
     // Constructors
     public Thongtinsan() {
@@ -74,9 +77,22 @@ public class Thongtinsan {
     public void setDetail(String detail) {
         this.detail = detail;
     }
+    
+    
 
-    @Override
-    public String toString() {
-        return "Thongtinsan [fieldID=" + fieldID + ", fieldName=" + fieldName + ", type=" + type + ", price=" + price + ", detail=" + detail + "]";
-    }
+    public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return "Thongtinsan [fieldID=" + fieldID + ", fieldName=" + fieldName + ", type=" + type + ", price=" + price
+				+ ", detail=" + detail + ", status=" + status + "]";
+	}
+
+
 }
