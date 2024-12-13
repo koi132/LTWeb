@@ -64,5 +64,14 @@ public class BookingService {
         }
         return null;  // Nếu không tìm thấy hoặc bookingCode không đúng
     }
+    public void deleteBooking(int bookingID) {
+        bookingRepository.deleteById(bookingID); // Sử dụng trực tiếp phương thức deleteById
+    }
+    public Optional<Booking> findBookingById(int bookingID) {
+        return bookingRepository.findById(bookingID);
+    }
 
+    public void updateBooking(Booking booking) {
+        bookingRepository.save(booking); // Cập nhật booking vào cơ sở dữ liệu
+    }
 }

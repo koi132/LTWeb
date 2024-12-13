@@ -38,5 +38,5 @@ List<Booking> findBookingsForCurrentTime(@Param("date") LocalDate date, @Param("
     Optional<Booking> findByBookingCode(String bookingCode);
  // Tìm Booking theo BookingID
     Optional<Booking> findById(int bookingID);
- 
+    void deleteById(int bookingID);
 }
