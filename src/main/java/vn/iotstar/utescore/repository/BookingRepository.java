@@ -15,28 +15,31 @@ import vn.iotstar.utescore.entity.Booking;
 import vn.iotstar.utescore.entity.Thongtinsan;
 
 @Repository
-public interface BookingRepository extends JpaRepository<Booking, Integer>{
+public interface BookingRepository extends JpaRepository<Booking, Integer> {
+
+	List<Booking> findByUserId(int userId);
 
 	// Tìm các booking theo ngày đặt
-    List<Booking> findByBookingDate(LocalDate bookingDate);
+	List<Booking> findByBookingDate(LocalDate bookingDate);
 
-    // Tìm các booking theo sân (FieldID)
-    List<Booking> findByThongTinSan_FieldID(Integer fieldID);
+	// Tìm các booking theo sân (FieldID)
+	List<Booking> findByThongTinSan_FieldID(Integer fieldID);
 
-    // Tìm booking theo khách hàng
-    List<Booking> findByCustomerNameContaining(String customerName);
-    
-    @Query(value = "SELECT * FROM Booking b WHERE b.bookingDate = :date " +
-            "AND CONVERT(time, b.startTime) <= CONVERT(time, :currentTime) " +
-            "AND CONVERT(time, b.endTime) > CONVERT(time, :currentTime)", 
-    nativeQuery = true)
-List<Booking> findBookingsForCurrentTime(@Param("date") LocalDate date, @Param("currentTime") LocalTime currentTime);
+	// Tìm booking theo khách hàng
+	List<Booking> findByCustomerNameContaining(String customerName);
 
- // Tìm kiếm Booking theo tên khách hàng hoặc số điện thoại
-    List<Booking> findByCustomerNameContainingIgnoreCaseOrPhone(String customerName, String phone);
-    
-    Optional<Booking> findByBookingCode(String bookingCode);
- // Tìm Booking theo BookingID
-    Optional<Booking> findById(int bookingID);
- 
+	@Query(value = "SELECT * FROM Booking b WHERE b.bookingDate = :date "
+			+ "AND CONVERT(time, b.startTime) <= CONVERT(time, :currentTime) "
+			+ "AND CONVERT(time, b.endTime) > CONVERT(time, :currentTime)", nativeQuery = true)
+	List<Booking> findBookingsForCurrentTime(@Param("date") LocalDate date,
+			@Param("currentTime") LocalTime currentTime);
+
+	// Tìm kiếm Booking theo tên khách hàng hoặc số điện thoại
+	List<Booking> findByCustomerNameContainingIgnoreCaseOrPhone(String customerName, String phone);
+
+	Optional<Booking> findByBookingCode(String bookingCode);
+
+	// Tìm Booking theo BookingID
+	Optional<Booking> findById(int bookingID);
+
 }

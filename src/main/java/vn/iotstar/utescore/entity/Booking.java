@@ -1,6 +1,7 @@
 package vn.iotstar.utescore.entity;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
@@ -34,23 +35,27 @@ public class Booking {
     private LocalTime endTime;
 
     @Column(name = "booking_code", nullable = false, unique = true, length = 10)
-    private String  bookingCode;
+    private String bookingCode;
 
     @Column(name = "status", nullable = false, length = 20)
     private String status = "Chưa nhận sân";
+
+    @Column(name = "userId", nullable = false)
+    private int userId;
 
     // Constructors
     public Booking() {
     }
 
-    public Booking(Thongtinsan thongTinSan, String customerName, String phone, LocalDate bookingDate, LocalTime startTime, LocalTime endTime) {
+    public Booking(Thongtinsan thongTinSan, String customerName, String phone, LocalDate bookingDate, LocalTime startTime, LocalTime endTime, int userId) {
         this.thongTinSan = thongTinSan;
         this.customerName = customerName;
         this.phone = phone;
         this.bookingDate = bookingDate;
         this.startTime = startTime;
         this.endTime = endTime;
-        this. bookingCode = generateBookingCode();
+        this.bookingCode = generateBookingCode();
+        this.userId = userId;
     }
 
     // Getters and Setters
@@ -110,12 +115,12 @@ public class Booking {
         this.endTime = endTime;
     }
 
-    public String getBooking_code() {
-        return  bookingCode;
+    public String getBookingCode() {
+        return bookingCode;
     }
 
-    public void setBooking_code(String booking_code) {
-        this. bookingCode =  bookingCode;
+    public void setBookingCode(String bookingCode) {
+        this.bookingCode = bookingCode;
     }
 
     public String getStatus() {
@@ -126,9 +131,17 @@ public class Booking {
         this.status = status;
     }
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     @PrePersist
     protected void onCreate() {
-        this. bookingCode = generateBookingCode();
+        this.bookingCode = generateBookingCode();
     }
 
     private String generateBookingCode() {
@@ -139,6 +152,6 @@ public class Booking {
     public String toString() {
         return "Booking [bookingID=" + bookingID + ", thongTinSan=" + thongTinSan + ", customerName=" + customerName
                 + ", phone=" + phone + ", bookingDate=" + bookingDate + ", startTime=" + startTime + ", endTime="
-                + endTime + ", booking_code=" +  bookingCode + ", status=" + status + "]";
+                + endTime + ", bookingCode=" + bookingCode + ", status=" + status + ", userId=" + userId + "]";
     }
 }
