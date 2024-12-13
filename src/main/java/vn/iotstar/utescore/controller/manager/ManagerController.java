@@ -154,14 +154,14 @@ public class ManagerController {
 	}
 
 
-	@GetMapping("/add")
+	@GetMapping("/manager/add")
     public String showAddYardPage() {
         return "manager/AddYard";  // Trả về file AddYard.html
     }
-	@PostMapping("/add1")
-	public String addThongTinSan(@RequestParam String fieldName, @RequestParam String type) {
+	@PostMapping("/manager/add1")
+	public String addThongTinSan(@RequestParam String fieldName, @RequestParam String type, @RequestParam Float price, @RequestParam String detail) {
 	    // Thêm thông tin sân vào cơ sở dữ liệu
-	    //thongTinSanService.addThongTinSan(fieldName, type);
+		thongTinSanService.addThongTinSan(fieldName, type, price, detail);
 	    
 	    // Chuyển hướng đến trang quản lý sân sau khi thêm
 	    return "redirect:/manager";  // Sử dụng redirect để chuyển hướng đến trang quản lý sân
