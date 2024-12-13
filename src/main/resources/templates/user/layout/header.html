@@ -1,176 +1,62 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(body)">
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-	<title>Shop PC Components</title>
+	<title>Header</title>
 
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
-
-	<!-- Navbar styles -->
-	<style>
-		.navbar {
-			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-			background-color: white;
-		}
-
-		.navbar-brand img {
-			height: 90px;
-		}
-
-		.nav-link {
-			font-weight: 700;
-			font-size: 18px;
-			color: #343a40;
-			margin: 0 15px;
-			transition: all 0.3s ease;
-		}
-
-		.nav-link:hover {
-			color: #007bff;
-			transform: translateY(-3px);
-		}
-
-		.search-box {
-			position: relative;
-		}
-
-		.search-box input {
-			border-radius: 25px;
-			padding: 10px 40px 10px 15px;
-			width: 300px;
-			transition: width 0.3s ease;
-			font-size: 16px;
-		}
-
-		.search-box input:focus {
-			width: 350px;
-			outline: none;
-			box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-		}
-
-		.search-box .fa-search {
-			position: absolute;
-			top: 50%;
-			right: 15px;
-			transform: translateY(-50%);
-			color: #007bff;
-		}
-
-		.icon-btn {
-			position: relative;
-			margin-left: 20px;
-			font-size: 22px;
-			color: #343a40;
-			transition: transform 0.3s ease;
-		}
-
-		.icon-btn:hover {
-			transform: scale(1.1);
-			color: #007bff;
-		}
-
-		.icon-btn .badge {
-			position: absolute;
-			top: -5px;
-			right: -10px;
-			background: #007bff;
-			color: white;
-			font-size: 12px;
-			border-radius: 50%;
-		}
-
-		.dropdown-menu {
-			min-width: 200px;
-		}
-
-		.advertisement {
-			position: fixed;
-			top: 50%;
-			transform: translateY(-50%);
-			width: 70px;
-			height: 500px;
-			transition: all 0.3s ease;
-			cursor: pointer;
-			z-index: 9999;
-		}
-
-		.advertisement-left {
-			left: 0;
-		}
-
-		.advertisement-right {
-			right: 0;
-		}
-
-		.advertisement img {
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-			border: 2px solid #f5c6cb;
-			border-radius: 10px;
-		}
-
-		.advertisement:hover {
-			width: 180px;
-			height: 500px;
-			border-color: #c3e6cb;
-			transform: translateY(-50%) scale(1.2);
-		}
-
-		@media (max-width: 768px) {
-			.advertisement {
-				display: none;
-			}
-		}
-	</style>
 </head>
 
 <body>
+<div th:fragment="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container-fluid">
+			<!-- Logo -->
+			<a class="navbar-brand" href="/">
+				<img src="images/logo.png" alt="Logo" style="height: 50px;">
+			</a>
 
-	<!-- Navbar -->
-	<nav class="navbar navbar-expand-lg">
-		<div class="container">
-			<!-- Contact -->
-			<span class="navbar-text me-3 text-muted" style="font-size: 18px; font-weight: 700;">
-			</span>
+			<!-- Toggle button for mobile -->
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
-			<div class="dropdown">
-				<a href="#" class="icon-btn dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown"
-					aria-expanded="false">
-					<i class="fas fa-user"></i>
-				</a>
-				<ul class="dropdown-menu" aria-labelledby="userDropdown">
-					<li><a class="dropdown-item" href="#">Xin chào, User</a></li>
-					<li><a class="dropdown-item" href="/user/profilePage">Thông tin cá nhân</a></li>
-					<li><a class="dropdown-item" th:href="@{/user/changePass}">Đổi mật khẩu</a></li>
-					<li><a class="dropdown-item" th:href="@{/logout}">Đăng xuất</a></li>
+			<!-- Links -->
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="/">Trang Chủ</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/about">Giới Thiệu</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/services">Dịch Vụ</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/contact">Liên Hệ</a>
+					</li>
 				</ul>
 
+				<!-- User Dropdown -->
+				<div class="dropdown ms-3">
+					<a href="#" class="icon-btn dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown"
+					   aria-expanded="false">
+						<i class="fas fa-user"></i>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+						<li><a class="dropdown-item" href="#">Xin chào, User</a></li>
+						<li><a class="dropdown-item" href="/user/profilePage">Thông tin cá nhân</a></li>
+						<li><a class="dropdown-item" th:href="@{/user/changePass}">Đổi mật khẩu</a></li>
+						<li><a class="dropdown-item" th:href="@{/logout}">Đăng xuất</a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
-		</div>
 	</nav>
-
-	<!-- Content from child pages -->
-	<div th:replace="${body}">
-		<!-- Content will be replaced here -->
-	</div>
-	
-	<script>
-			function redirectToProduct() {
-				// Chuyển hướng đến trang chi tiết bài viết
-				window.location.href = "/user/";
-			}
-		</script>
-
-	<!-- Common JS -->
-	<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</div>
 </body>
-
 </html>
