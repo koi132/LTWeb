@@ -25,8 +25,6 @@ import vn.iotstar.utescore.repository.BookingRepository;
 import vn.iotstar.utescore.services.BookingService;
 import vn.iotstar.utescore.services.ThongTinSanService;
 
-
-
 @Controller
 @RequestMapping("/")
 public class ManagerController {
@@ -36,9 +34,9 @@ public class ManagerController {
 
 	@Autowired
 	private BookingService bookingService;
-	
+
 	@Autowired
-    private ThongTinSanService thongTinSanService;
+	private ThongTinSanService thongTinSanService;
 
 	@RequestMapping("/admin")
 	public String manageFields(@RequestParam(value = "selectedDate", required = false) LocalDate selectedDate,
@@ -91,7 +89,6 @@ public class ManagerController {
 		model.addAttribute("Datebookings", Datebookings);
 		model.addAttribute("selectedDate", selectedDate);
 
-		
 		return "admin/qlsb"; // Trang hiển thị
 	}
 
@@ -147,18 +144,19 @@ public class ManagerController {
 	}
 
 	@GetMapping("/manager/add")
-    public String showAddYardPage() {
-        return "admin/AddYard";  // Trả về file AddYard.html
-    }
-	@PostMapping("/manager/add1")
-	public String addThongTinSan(@RequestParam String fieldName, @RequestParam String type) {
-	    // Thêm thông tin sân vào cơ sở dữ liệu
-	    thongTinSanService.addThongTinSan(fieldName, type);
-	    
-	    // Chuyển hướng đến trang quản lý sân sau khi thêm
-	    return "redirect:/admin";  // Sử dụng redirect để chuyển hướng đến trang quản lý sân
+	public String showAddYardPage() {
+		return "admin/AddYard"; // Trả về file AddYard.html
 	}
 
-	
+	@PostMapping("/manager/add1")
+	public String addThongTinSan(@RequestParam String fieldName, @RequestParam String type, @RequestParam Float price,
+			@RequestParam String detail) {
+		// Thêm thông tin sân vào cơ sở dữ liệu
+		thongTinSanService.addThongTinSan(fieldName, type, price, detail);
+
+		// Chuyển hướng đến trang quản lý sân sau khi thêm
+		return "redirect:/admin"; // Sử dụng redirect để chuyển hướng đến trang quản lý sân
+
+	}
 
 }

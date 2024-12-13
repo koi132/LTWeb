@@ -89,37 +89,22 @@
 			background-color: #004085;
 		}
 	</style>
-	<div class="container">
+	<div class="container mt-4">
 		<h1>Thêm Thông Tin Sân</h1>
-		<form action="/add1" method="POST">
-			<div class="form-group">
-				<label for="fieldName">Tên Sân:</label>
-				<input type="text" id="fieldName" name="fieldName" required>
-			</div>
-
-			<div class="form-group">
-				<label for="type">Loại Sân:</label>
-				<select id="type" name="type" required>
+		<form action="/manager/add1" method="POST">
+			<div class="form-group"> <label for="fieldName">Tên Sân:</label> <input type="text" id="fieldName"
+					name="fieldName" required> </div>
+			<div class="form-group"> <label for="type">Loại Sân:</label> <select id="type" name="type" required>
 					<option value="">Chọn loại sân</option>
 					<option value="5">Sân 5 người</option>
 					<option value="7">Sân 7 người</option>
 					<option value="10">Sân 11 người</option>
-				</select>
-			</div>
-
-			<div class="form-group">
-				<label for="price">Giá Tiền:</label>
-				<input type="number" id="price" name="price" required>
-			</div>
-
-			<div class="form-group">
-				<label for="fieldInfo">Thông Tin Sân:</label>
-				<input type="text" id="fieldInfo" name="fieldInfo" required>
-			</div>
-
-			<div class="form-group">
-				<button type="submit">Thêm Sân</button>
-			</div>
+				</select> </div>
+			<div class="form-group"> <label for="price">Giá Tiền:</label> <input type="number" id="price" name="price"
+					required> </div>
+			<div class="form-group"> <label for="detail">Thông Tin Sân:</label> <input type="text" id="detail"
+					name="detail" required> </div>
+			<div class="form-group"> <button type="submit">Thêm Sân</button> </div>
 		</form>
 	</div>
 
