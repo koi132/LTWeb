@@ -1,225 +1,399 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đặt Sân Bóng</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .pitch-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .modal {
-            background-color: rgba(0,0,0,0.5);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Danh Sách Sân Bóng</title>
+<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+	type="text/css">
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+	rel="stylesheet">
+
+<style>
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+	background-color: #fefefe;
+	margin: 10% auto;
+	padding: 20px;
+	border-radius: 10px;
+	max-width: 500px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #f4f4f4;
+}
+
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 20px;
+}
+
+.search-bar {
+	display: flex;
+	margin-bottom: 20px;
+}
+
+.search-bar input {
+	flex-grow: 1;
+	padding: 10px;
+	font-size: 16px;
+}
+
+.san-bong-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	gap: 20px;
+}
+
+.san-bong-card {
+	background-color: #EBF0FF;
+	border-radius: 8px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+	transition: transform 0.3s;
+}
+
+.san-bong-card:hover {
+	transform: scale(1.05);
+}
+
+.san-bong-card img {
+	width: 100%;
+	height: 250px;
+	object-fit: cover;
+}
+
+.san-bong-info {
+	padding: 15px;
+}
+
+.san-bong-info h3 {
+	margin: 0 0 10px 0;
+	color: #333;
+}
+
+.san-bong-info p {
+	margin: 5px 0;
+	color: #666;
+}
+
+/* New color classes */
+.price-color {
+	color: #2ecc71; /* Xanh lá cây */
+	font-weight: bold;
+}
+
+.status-color {
+	color: #3498db; /* Xanh dương */
+	font-weight: bold;
+}
+
+.type-color {
+	color: #FF0000; /* Xanh đỏ */
+}
+
+.loading {
+	text-align: center;
+	padding: 20px;
+	display: none;
+}
+
+.error-message {
+	color: red;
+	text-align: center;
+	padding: 20px;
+}
+</style>
 </head>
-<body class="bg-gray-100">
-    <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold text-center mb-8 text-green-700">Đặt Sân Bóng</h1>
-        
-        <div id="pitchContainer" class="grid grid-cols-5 gap-4">
-            <!-- Các sân sẽ được thêm vào đây bằng JavaScript -->
-        </div>
+<body>
 
-        <div id="loadMore" class="text-center mt-8">
-            <button class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition">
-                Xem Thêm Sân
-            </button>
-        </div>
-    </div>
 
-    <!-- Modal Chi Tiết Sân Bóng -->
-    <div id="pitchDetailModal" class="fixed inset-0 z-50 hidden modal items-center justify-center p-4">
-        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 id="modalPitchName" class="text-2xl font-bold"></h2>
-                    <button id="closeModal" class="text-gray-600 hover:text-gray-900">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-                
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <img id="modalPitchImage" src="" alt="Chi tiết sân bóng" class="w-full h-64 object-cover rounded-md mb-4">
-                    </div>
-                    <div>
-                        <div class="mb-4">
-                            <p class="font-semibold text-gray-600">Giá Thuê:</p>
-                            <p id="modalPitchPrice" class="text-xl font-bold text-green-600"></p>
-                        </div>
-                        <div class="mb-4">
-                            <p class="font-semibold text-gray-600">Trạng Thái:</p>
-                            <p id="modalPitchStatus" class="font-bold"></p>
-                        </div>
-                        <div class="mb-4">
-                            <p class="font-semibold text-gray-600">Chi Tiết Sân:</p>
-                            <ul id="modalPitchDetails" class="list-disc list-inside text-gray-700">
-                                <!-- Chi tiết sẽ được điền động -->
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+	<!-- Begin Content -->
+	<div class="container">
+		<div class="search-bar">
+			<input type="text" id="searchInput"
+				placeholder="Tìm kiếm sân bóng...">
+		</div>
+		<div id="sanBongGrid" class="san-bong-grid">
+			<!-- Các sân bóng sẽ được thêm ở đây bằng JavaScript -->
+		</div>
+		<div id="loading" class="loading">Đang tải thêm sân bóng...</div>
+		<div id="errorMessage" class="error-message"></div>
+	</div>
 
-                <div class="mt-6 flex justify-end space-x-4">
-                    <button id="bookPitchButton" class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600">
-                        Đặt Sân Ngay
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+	<!-- Modal chi tiết sân bóng -->
+	<div id="sanBongDetailsModal" class="modal">
+		<div class="modal-content">
+			<!-- Nội dung chi tiết sân bóng sẽ được render ở đây -->
+		</div>
+	</div>
 
-    <script>
-        // Mảng chứa thông tin chi tiết các sân bóng
-        const pitches = [
-            { 
-                id: 1, 
-                name: 'Sân Bóng A', 
-                price: 200000, 
-                status: 'Còn Trống', 
-                details: [
-                    'Diện tích: 40m x 20m',
-                    'Mặt sân: Cỏ nhân tạo',
-                    'Chiếu sáng: Đèn LED hiện đại',
-                    'Bao gồm: Ghế ngồi, phòng thay đồ'
-                ],
-                facilities: ['Bãi đỗ xe', 'Quầy nước', 'Khu vệ sinh']
-            },
-            // ... (giữ nguyên các sân bóng khác như trước)
-            { id: 2, name: 'Sân Bóng B', price: 250000, status: 'Sắp Đầy' ,
-            	details: [
-                    'Diện tích: 40m x 20m',
-                    'Mặt sân: Cỏ nhân tạo',
-                    'Chiếu sáng: Đèn LED hiện đại',
-                    'Bao gồm: Ghế ngồi, phòng thay đồ'
-                ],
-                facilities: ['Bãi đỗ xe', 'Quầy nước', 'Khu vệ sinh']},
-            
-            { id: 3, name: 'Sân Bóng C', price: 180000, status: 'Còn Trống' ,
-            	details: [
-                    'Diện tích: 40m x 20m',
-                    'Mặt sân: Cỏ nhân tạo',
-                    'Chiếu sáng: Đèn LED hiện đại',
-                    'Bao gồm: Ghế ngồi, phòng thay đồ'
-                ],
-                facilities: ['Bãi đỗ xe', 'Quầy nước', 'Khu vệ sinh']},
-            { id: 4, name: 'Sân Bóng D', price: 220000, status: 'Đã Đặt' ,
-            	details: [
-                    'Diện tích: 40m x 20m',
-                    'Mặt sân: Cỏ nhân tạo',
-                    'Chiếu sáng: Đèn LED hiện đại',
-                    'Bao gồm: Ghế ngồi, phòng thay đồ'
-                ],
-                facilities: ['Bãi đỗ xe', 'Quầy nước', 'Khu vệ sinh']},
-            { id: 5, name: 'Sân Bóng E', price: 190000, status: 'Còn Trống' ,
-            	details: [
-                    'Diện tích: 40m x 20m',
-                    'Mặt sân: Cỏ nhân tạo',
-                    'Chiếu sáng: Đèn LED hiện đại',
-                    'Bao gồm: Ghế ngồi, phòng thay đồ'
-                ],
-                facilities: ['Bãi đỗ xe', 'Quầy nước', 'Khu vệ sinh']},
-            { id: 6, name: 'Sân Bóng F', price: 230000, status: 'Sắp Đầy' },
-            { id: 7, name: 'Sân Bóng G', price: 210000, status: 'Còn Trống' },
-            { id: 8, name: 'Sân Bóng H', price: 240000, status: 'Đã Đặt' },
-            { id: 9, name: 'Sân Bóng I', price: 260000, status: 'Còn Trống' },
-            { id: 10, name: 'Sân Bóng J', price: 200000, status: 'Sắp Đầy' },
-            { id: 11, name: 'Sân Bóng K', price: 180000, status: 'Còn Trống' },
-            { id: 12, name: 'Sân Bóng L', price: 220000, status: 'Đã Đặt' }
-        ];
 
-        const pitchContainer = document.getElementById('pitchContainer');
-        const loadMoreButton = document.getElementById('loadMore');
-        const modalDetailsPitch = document.getElementById('pitchDetailModal');
-        const closeModalButton = document.getElementById('closeModal');
-        const bookPitchButton = document.getElementById('bookPitchButton');
 
+
+	<script>
+        let sanBongData = [];
+        let filteredData = [];
         let currentPage = 1;
-        const itemsPerPage = 5;
+        const itemsPerPage = 10;
 
-        function renderPitches(page) {
-            const start = (page - 1) * itemsPerPage;
-            const end = start + itemsPerPage;
-            const paginatedPitches = pitches.slice(start, end);
-
-            paginatedPitches.forEach(pitch => {
-                const pitchCard = document.createElement('div');
-                pitchCard.classList.add('pitch-card', 'bg-white', 'rounded-lg', 'shadow-md', 'p-4', 'text-center', 'transition', 'transform', 'hover:scale-105', 'cursor-pointer');
-                
-                let statusColor = pitch.status === 'Còn Trống' ? 'text-green-500' : 
-                                   pitch.status === 'Sắp Đầy' ? 'text-yellow-500' : 'text-red-500';
-
-                pitchCard.innerHTML = `
-                    <div class="mb-4">
-                        <img src="/api/placeholder/250/150" alt="${pitch.name}" class="w-full h-40 object-cover rounded-md">
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">${pitch.name}</h3>
-                    <p class="text-gray-600 mb-2">${pitch.price.toLocaleString()} VNĐ</p>
-                    <p class="${statusColor} font-bold">${pitch.status}</p>
-                `;
-
-                // Thêm sự kiện click để hiển thị chi tiết
-                pitchCard.addEventListener('click', () => showPitchDetails(pitch));
-
-                pitchContainer.appendChild(pitchCard);
-            });
-        }
-
-        function showPitchDetails(pitch) {
-            // Cập nhật thông tin modal
-            document.getElementById('modalPitchName').textContent = pitch.name;
-            document.getElementById('modalPitchPrice').textContent = `${pitch.price.toLocaleString()} VNĐ`;
-            document.getElementById('modalPitchImage').src = '/api/placeholder/500/300';
-            
-            // Cập nhật trạng thái
-            const statusElement = document.getElementById('modalPitchStatus');
-            statusElement.textContent = pitch.status;
-            statusElement.className = pitch.status === 'Còn Trống' ? 'text-green-500 font-bold' : 
-                                       pitch.status === 'Sắp Đầy' ? 'text-yellow-500 font-bold' : 'text-red-500 font-bold';
-
-            // Điền chi tiết sân
-            const detailsList = document.getElementById('modalPitchDetails');
-            detailsList.innerHTML = ''; // Xóa các mục cũ
-            pitch.details.forEach(detail => {
-                const li = document.createElement('li');
-                li.textContent = detail;
-                detailsList.appendChild(li);
-            });
-
-            // Hiển thị modal
-            modalDetailsPitch.classList.remove('hidden');
-            modalDetailsPitch.classList.add('flex');
-        }
-
-        // Đóng modal
-        closeModalButton.addEventListener('click', () => {
-            modalDetailsPitch.classList.remove('flex');
-            modalDetailsPitch.classList.add('hidden');
-        });
-
-        // Đặt sân
-        bookPitchButton.addEventListener('click', () => {
-            alert('Chức năng đặt sân đang được phát triển!');
-        });
-
-        // Render trang đầu tiên
-        renderPitches(currentPage);
-
-        // Xử lý sự kiện cuộn và nút "Xem Thêm"
-        loadMoreButton.addEventListener('click', () => {
-            currentPage++;
-            renderPitches(currentPage);
-
-            // Ẩn nút "Xem Thêm" nếu đã hiển thị hết sân
-            if (currentPage * itemsPerPage >= pitches.length) {
-                loadMoreButton.style.display = 'none';
+        // Fetch dữ liệu từ API
+        async function fetchSanBongData() {
+            try {
+                const response = await fetch('/api/cacsan');
+                if (!response.ok) {
+                    throw new Error('Không thể tải dữ liệu sân bóng');
+                }
+                sanBongData = await response.json();
+                filteredData = sanBongData.filter(Thongtinsan => 
+                (Thongtinsan.status || '').toLowerCase() === 'còn sân'
+            );
+                currentPage = 1;
+                document.getElementById('sanBongGrid').innerHTML = '';
+                loadMoreSanBong();
+            } catch (error) {
+                console.error('Lỗi:', error);
+                document.getElementById('errorMessage').textContent = error.message;
             }
+        }
+
+        function renderSanBong(data) {
+            const grid = document.getElementById('sanBongGrid');
+            data.forEach(Thongtinsan => {
+                const card = document.createElement('div');
+                card.className = 'san-bong-card';
+                
+               
+                const imageUrl = '/img/sanbong.jpg';
+
+                card.innerHTML = `
+                    <img src="${imageUrl}" alt="${Thongtinsan.fieldName || 'Sân Bóng'}">
+                    <div class="san-bong-info">
+                        <h3>${Thongtinsan.fieldName || 'Chưa cập nhật'}</h3>
+                        <p><strong>Trạng thái:</strong> <span class="status-color">${Thongtinsan.status || 'Chưa cập nhật'}</span></p>
+                        <p><strong>Giá thuê:</strong> <span class="price-color">${Thongtinsan.price ? Thongtinsan.price.toLocaleString() + ' VNĐ/giờ' : 'Chưa cập nhật'}</span></p>
+                        <p><strong>Loại sân:</strong> <span class="type-color">${Thongtinsan.type || 'Chưa cập nhật'}</p>
+                        
+                	<button onclick='viewDetails(${JSON.stringify(Thongtinsan).replace(/'/g, "&apos;")})' 
+                    class="mt-2 w-full bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition">
+                Xem chi tiết
+            </button>
+                        
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }        
+        
+        function viewDetails(Thongtinsan) {
+            const modal = document.getElementById('sanBongDetailsModal');
+            const modalContent = modal.querySelector('.modal-content');
+			
+            if (typeof Thongtinsan === 'string') {
+                try {
+                    Thongtinsan = JSON.parse(Thongtinsan.replace(/&apos;/g, "'"));
+                } catch (error) {
+                    console.error('Lỗi parse JSON:', error);
+                    return;
+                }
+            }
+            
+            modalContent.innerHTML = `
+                <div class="text-right">
+                    <button onclick="closeModal()" class="text-red-500 font-bold">Đóng X</button>
+                </div>
+                <div class="container mx-auto px-4 py-4">
+                    <div class="max-w-xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+                        <div class="bg-green-600 p-4">
+                            <h1 class="text-2xl font-bold text-white text-center">
+                                ${Thongtinsan.fieldName || 'Sân Bóng'}
+                            </h1>
+                        </div>
+                        
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <i class="fas fa-map-marker-alt text-green-600 mr-3 text-xl"></i>
+                                    <span class="text-gray-700">
+                                        ${Thongtinsan.address || 'Chưa cập nhật'}
+                                    </span>
+                                </div>
+
+                                <div class="flex items-center">
+                                    <i class="fas fa-dollar-sign text-green-600 mr-3 text-xl"></i>
+                                    <span class="text-gray-700">
+                                        Giá thuê: ${Thongtinsan.price ? Thongtinsan.price.toLocaleString() + ' VNĐ/giờ' : 'Chưa cập nhật'}
+                                    </span>
+                                </div>
+
+                                <div class="flex items-center">
+                                    <i class="fas fa-futbol text-green-600 mr-3 text-xl"></i>
+                                    <span class="text-gray-700">
+                                        Loại sân: ${Thongtinsan.type || 'Chưa cập nhật'}
+                                    </span>
+                                </div>
+
+                                <div class="flex items-center">
+                                    <i class="fas fa-info-circle text-green-600 mr-3 text-xl"></i>
+                                    <span class="text-gray-700">
+                                        Trạng thái: ${Thongtinsan.status || 'Chưa cập nhật'}
+                                    </span>
+                                </div>
+
+                                <div>
+                                    <h3 class="text-lg font-semibold text-green-700 mb-2">
+                                        Chi tiết thêm:
+                                    </h3>
+                                    <p class="text-gray-700">
+                                        ${Thongtinsan.detail || 'Không có thông tin chi tiết'}
+                                    </p>
+                                </div>
+                                
+                                ${Thongtinsan.status === 'Còn sân' ? `
+                                        <div class="mt-4">
+                                            <button onclick="datSan('${Thongtinsan.id}')" 
+                                                    class="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
+                                                Đặt Sân
+                                            </button>
+                                        </div>
+                                        ` : ''}                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            modal.style.display = 'block';
+        }
+        
+        async function datSan(fieldId) {
+            try {
+                // Gọi API để cập nhật trạng thái sân
+                const response = await fetch(`/api/datsan/${fieldId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: 'Đã đặt' })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Không thể đặt sân');
+                }
+
+                // Cập nhật trạng thái trực tiếp trên giao diện
+                document.getElementById('sanBongStatus').textContent = 'Trạng thái: Đã đặt';
+                
+                // Ẩn nút đặt sân sau khi đặt
+                const datSanButton = document.querySelector('button[onclick^="datSan"]');
+                if (datSanButton) {
+                    datSanButton.remove();
+                }
+
+                // Cập nhật dữ liệu local
+                const updatedSanBong = sanBongData.find(san => san.id === fieldId);
+                if (updatedSanBong) {
+                    updatedSanBong.status = 'Đã đặt';
+                }
+
+                // Làm mới grid để hiển thị trạng thái mới
+                document.getElementById('sanBongGrid').innerHTML = '';
+                filteredData = sanBongData.filter(Thongtinsan => 
+                    (Thongtinsan.status || '').toLowerCase() === 'còn sân'
+                );
+                currentPage = 1;
+                loadMoreSanBong();
+
+                // Thông báo đặt sân thành công
+                alert('Đặt sân thành công!');
+            } catch (error) {
+                console.error('Lỗi:', error);
+                alert('Đặt sân không thành công. Vui lòng thử lại.');
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('sanBongDetailsModal');
+            modal.style.display = 'none';
+        }
+
+        
+        function loadMoreSanBong() {
+            const loading = document.getElementById('loading');
+            loading.style.display = 'block';
+
+            
+            setTimeout(() => {
+                const startIndex = (currentPage - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+                const nextPageData = filteredData.slice(startIndex, endIndex);
+
+                renderSanBong(nextPageData);
+                currentPage++;
+                loading.style.display = 'none';
+
+            
+                if (endIndex >= filteredData.length) {
+                    window.removeEventListener('scroll', checkScrollPosition);
+                }
+            }, 500);
+        }
+
+        function checkScrollPosition() {
+            const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+            if (scrollTop + clientHeight >= scrollHeight - 100) {
+                loadMoreSanBong();
+            }
+        }
+
+     // Tìm kiếm sân bóng
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            filteredData = sanBongData.filter(Thongtinsan => 
+            (Thongtinsan.status || '').toLowerCase() === 'còn sân' &&
+            (
+                (Thongtinsan.fieldName || '').toLowerCase().includes(searchTerm) || 
+                (Thongtinsan.type || '').toLowerCase().includes(searchTerm) ||      
+                (Thongtinsan.detail || '').toLowerCase().includes(searchTerm) ||
+                (Thongtinsan.price || '').toString().toLowerCase().includes(searchTerm)
+            )
+        );       
+                         
+            document.getElementById('sanBongGrid').innerHTML = '';
+            renderSanBong(filteredData);
+            currentPage = 1; 
         });
+
+        // Khởi tạo trang
+        fetchSanBongData();
+
+        // Lắng nghe sự kiện cuộn
+        window.addEventListener('scroll', checkScrollPosition);
     </script>
 </body>
 </html>
