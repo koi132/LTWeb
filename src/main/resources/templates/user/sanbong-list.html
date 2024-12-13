@@ -44,7 +44,7 @@ body {
 }
 
 .san-bong-card {
-	background-color: white;
+	background-color: #EBF0FF;
 	border-radius: 8px;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 	overflow: hidden;
@@ -396,6 +396,8 @@ body {
 				</div>
 			</div>
 			<!-- End Content -->
+
+
 			<script>
         let sanBongData = [];
         let filteredData = [];
@@ -410,7 +412,9 @@ body {
                     throw new Error('Không thể tải dữ liệu sân bóng');
                 }
                 sanBongData = await response.json();
-                filteredData = sanBongData;
+                filteredData = sanBongData.filter(Thongtinsan => 
+                (Thongtinsan.status || '').toLowerCase() === 'còn sân'
+            );
                 currentPage = 1;
                 document.getElementById('sanBongGrid').innerHTML = '';
                 loadMoreSanBong();
@@ -440,7 +444,7 @@ body {
                 `;
                 grid.appendChild(card);
             });
-        }
+        }                
 
         function loadMoreSanBong() {
             const loading = document.getElementById('loading');
@@ -470,21 +474,21 @@ body {
             }
         }
 
-     // Tìm kiếm sân bóng
+     	// Tìm kiếm sân bóng
         document.getElementById('searchInput').addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
-			
-       
-            const filteredData = sanBongData.filter(Thongtinsan => 
+            filteredData = sanBongData.filter(Thongtinsan => 
+            (Thongtinsan.status || '').toLowerCase() === 'còn sân' &&
+            (
                 (Thongtinsan.fieldName || '').toLowerCase().includes(searchTerm) || 
-                (Thongtinsan.type || '').toLowerCase().includes(searchTerm)
-            );
-
-  
+                (Thongtinsan.type || '').toLowerCase().includes(searchTerm) ||      
+                (Thongtinsan.detail || '').toLowerCase().includes(searchTerm) ||
+                (Thongtinsan.price || '').toString().toLowerCase().includes(searchTerm)
+            )
+        );       
+                         
             document.getElementById('sanBongGrid').innerHTML = '';
             renderSanBong(filteredData);
-            console.log(filteredData)
- 
             currentPage = 1; 
         });
 
