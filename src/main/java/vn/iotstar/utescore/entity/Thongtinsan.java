@@ -17,8 +17,8 @@ public class Thongtinsan {
     @Column(name = "Type", nullable = false, length = 20)
     private String type;
 
-    @Column(name = "Price", nullable = false)
-    private double price;  // Thêm thuộc tính price
+    @Column(name = "Price", nullable = false, columnDefinition = "float default 0")
+    private double price;
 
     @Column(name = "Detail", length = 255)  // Có thể điều chỉnh độ dài tùy thuộc vào yêu cầu
     private String detail;  // Thêm thuộc tính detail

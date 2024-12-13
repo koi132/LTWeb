@@ -7,14 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import vn.iotstar.utescore.entity.FootballField;
-import vn.iotstar.utescore.services.FootBallFieldService;
+import vn.iotstar.utescore.entity.Thongtinsan;
+import vn.iotstar.utescore.services.ThongTinSanService;
 
 @Controller
 @RequestMapping("/")
 public class UserController {
 	@Autowired
-	private FootBallFieldService footBallFieldService;
+	private ThongTinSanService thongTinSanService;
 
 	@RequestMapping("/user")
 	public String dangNhap() {
@@ -28,7 +28,7 @@ public class UserController {
 	
     @GetMapping("/api/cacsan") 
     @ResponseBody
-    public List<FootballField> getAllFields() {
-        return footBallFieldService.getAllFields();
+    public List<Thongtinsan> getAllFields() {
+        return thongTinSanService.getAllFields();
     }
 }
