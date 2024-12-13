@@ -146,11 +146,11 @@ public class ManagerController {
 		return "admin/search"; // Tên trang hiển thị kết quả tìm kiếm
 	}
 
-	@GetMapping("/add")
+	@GetMapping("/manager/add")
     public String showAddYardPage() {
         return "admin/AddYard";  // Trả về file AddYard.html
     }
-	@PostMapping("/add1")
+	@PostMapping("/manager/add1")
 	public String addThongTinSan(@RequestParam String fieldName, @RequestParam String type) {
 	    // Thêm thông tin sân vào cơ sở dữ liệu
 	    thongTinSanService.addThongTinSan(fieldName, type);
