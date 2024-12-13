@@ -28,8 +28,6 @@ import vn.iotstar.utescore.repository.BookingRepository;
 import vn.iotstar.utescore.services.BookingService;
 import vn.iotstar.utescore.services.ThongTinSanService;
 
-
-
 @Controller
 @RequestMapping("/")
 public class ManagerController {
@@ -39,9 +37,9 @@ public class ManagerController {
 
 	@Autowired
 	private BookingService bookingService;
-	
+
 	@Autowired
-    private ThongTinSanService thongTinSanService;
+	private ThongTinSanService thongTinSanService;
 
 	@RequestMapping("/manager")
 	public String manageFields(@RequestParam(value = "selectedDate", required = false) LocalDate selectedDate,
@@ -94,8 +92,12 @@ public class ManagerController {
 		model.addAttribute("Datebookings", Datebookings);
 		model.addAttribute("selectedDate", selectedDate);
 
+
 		
 		return "manager/qlsb"; // Trang hiển thị
+
+
+
 	}
 
 	@RequestMapping("/manager/seen")
@@ -149,6 +151,7 @@ public class ManagerController {
 		return "manager/search"; // Tên trang hiển thị kết quả tìm kiếm
 	}
 
+
 	@GetMapping("/add")
     public String showAddYardPage() {
         return "manager/AddYard";  // Trả về file AddYard.html
@@ -174,5 +177,6 @@ public class ManagerController {
 	}
 	
 	
+
 
 }

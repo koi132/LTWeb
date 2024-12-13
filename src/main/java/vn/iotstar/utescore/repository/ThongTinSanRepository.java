@@ -7,4 +7,5 @@ import vn.iotstar.utescore.entity.Thongtinsan;
 
 @Repository
 public interface ThongTinSanRepository extends JpaRepository<Thongtinsan, Integer> {
+	
 }
