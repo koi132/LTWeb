@@ -273,6 +273,15 @@ body {
                                         ${Thongtinsan.detail || 'Không có thông tin chi tiết'}
                                     </p>
                                 </div>
+                                
+                                ${Thongtinsan.status === 'Còn sân' ? `
+                                        <div class="mt-4">
+                                            <button onclick="datSan('${Thongtinsan.id}')" 
+                                                    class="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
+                                                Đặt Sân
+                                            </button>
+                                        </div>
+                                        ` : ''}                                
                             </div>
                         </div>
                     </div>
@@ -280,6 +289,52 @@ body {
             `;
 
             modal.style.display = 'block';
+        }
+        
+        async function datSan(fieldId) {
+            try {
+                // Gọi API để cập nhật trạng thái sân
+                const response = await fetch(`/api/datsan/${fieldId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: 'Đã đặt' })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Không thể đặt sân');
+                }
+
+                // Cập nhật trạng thái trực tiếp trên giao diện
+                document.getElementById('sanBongStatus').textContent = 'Trạng thái: Đã đặt';
+                
+                // Ẩn nút đặt sân sau khi đặt
+                const datSanButton = document.querySelector('button[onclick^="datSan"]');
+                if (datSanButton) {
+                    datSanButton.remove();
+                }
+
+                // Cập nhật dữ liệu local
+                const updatedSanBong = sanBongData.find(san => san.id === fieldId);
+                if (updatedSanBong) {
+                    updatedSanBong.status = 'Đã đặt';
+                }
+
+                // Làm mới grid để hiển thị trạng thái mới
+                document.getElementById('sanBongGrid').innerHTML = '';
+                filteredData = sanBongData.filter(Thongtinsan => 
+                    (Thongtinsan.status || '').toLowerCase() === 'còn sân'
+                );
+                currentPage = 1;
+                loadMoreSanBong();
+
+                // Thông báo đặt sân thành công
+                alert('Đặt sân thành công!');
+            } catch (error) {
+                console.error('Lỗi:', error);
+                alert('Đặt sân không thành công. Vui lòng thử lại.');
+            }
         }
 
         function closeModal() {

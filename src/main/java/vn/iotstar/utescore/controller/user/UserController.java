@@ -27,17 +27,13 @@ public class UserController {
 	public String loadCacSanSanCo() {
 		return "user/sanbong-list";
 	}
-	
-	 @GetMapping("/api/cacsan")
-	    public ResponseEntity<List<Thongtinsan>> getAllFields() {
-	        List<Thongtinsan> fields = thongTinSanService.getAllFields();
-	        
-	        // Kiểm tra nếu danh sách rỗng
-	        if (fields.isEmpty()) {
-	            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	        }
-	        
-	        return new ResponseEntity<>(fields, HttpStatus.OK);
-	    }
 
+	@GetMapping("/api/cacsan")
+	public ResponseEntity<List<Thongtinsan>> getAllFields() {
+		List<Thongtinsan> fields = thongTinSanService.getAllFields();
+		if (fields.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(fields, HttpStatus.OK);
+	}
 }
