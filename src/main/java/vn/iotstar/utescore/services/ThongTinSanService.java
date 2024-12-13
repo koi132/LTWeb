@@ -15,10 +15,11 @@ public class ThongTinSanService {
 	@Autowired
     private ThongTinSanRepository thongTinSanRepository;
 	
-    public Thongtinsan addThongTinSan(String fieldName, String type) {
-        Thongtinsan thongtinsan = new Thongtinsan(fieldName, type, 0, type);
-        return thongTinSanRepository.save(thongtinsan);
-    }     
+	public Thongtinsan addThongTinSan(String fieldName, String type, Float price, String detail) {
+	    Thongtinsan thongtinsan = new Thongtinsan(fieldName, type, price, detail);
+	    return thongTinSanRepository.save(thongtinsan);
+	}
+
     
     public List<Thongtinsan> getAllFields() {
 		return thongTinSanRepository.findAll();
