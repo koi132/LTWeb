@@ -1,6 +1,7 @@
 package vn.iotstar.utescore.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+
 import org.springframework.stereotype.Repository;
 import vn.iotstar.utescore.entity.User;
 
@@ -23,4 +24,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 	public Optional<User> findUserByEmail(String email);
 
+
+
+    // JpaRepository đã hỗ trợ sẵn phương thức `findAll()`
+	void deleteById(int userId);
+	
 }
+

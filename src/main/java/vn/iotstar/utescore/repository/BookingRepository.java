@@ -43,4 +43,8 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 	// Tìm Booking theo BookingID
 	Optional<Booking> findById(int bookingID);
 
+ // Tìm kiếm Booking theo tên khách hàng hoặc số điện thoại
+    
+    
+    
 }

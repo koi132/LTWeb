@@ -8,76 +8,84 @@ import java.time.LocalDateTime;
 @Table(name = "Payments")
 public class Payment {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@Column(name = "booking_id", nullable = false)
-	private String bookingId;
+    @ManyToOne
+    @JoinColumn(name = "booking_id", referencedColumnName = "BookingID", insertable = false, updatable = false)
+    private Booking booking; // Liên kết với bảng Booking
 
-	@Column(name = "payment_date", nullable = false, columnDefinition = "DATETIME DEFAULT GETDATE()")
-	private LocalDateTime paymentDate = LocalDateTime.now();
+    @Column(name = "payment_date", nullable = false, columnDefinition = "DATETIME DEFAULT GETDATE()")
+    private LocalDateTime paymentDate = LocalDateTime.now();
 
-	@Column(name = "amount", nullable = false, precision = 10, scale = 2)
-	private BigDecimal amount;
+    @Column(name = "amount", nullable = false, precision = 10, scale = 2)
+    private BigDecimal amount;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "status", nullable = false)
-	private PaymentStatus status = PaymentStatus.PENDING;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private PaymentStatus status = PaymentStatus.PENDING;
 
-	@Column(name = "userId", nullable = false)
-	private Integer userId; // Thêm thuộc tính userId
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = false) // Tạo khóa ngoại liên kết với bảng Users
+    private User user; // Người thanh toán
 
-	// Getters and Setters
-	public Integer getId() {
-		return id;
-	}
+    // Getter và Setter cho các trường
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getBookingId() {
-		return bookingId;
-	}
+    public Booking getBooking() {
+        return booking;
+    }
 
-	public void setBookingId(String bookingId) {
-		this.bookingId = bookingId;
-	}
+    public void setBooking(Booking booking) {
+        this.booking = booking;
+    }
 
-	public LocalDateTime getPaymentDate() {
-		return paymentDate;
-	}
+    public LocalDateTime getPaymentDate() {
+        return paymentDate;
+    }
 
-	public void setPaymentDate(LocalDateTime paymentDate) {
-		this.paymentDate = paymentDate;
-	}
+    public void setPaymentDate(LocalDateTime paymentDate) {
+        this.paymentDate = paymentDate;
+    }
 
-	public BigDecimal getAmount() {
-		return amount;
-	}
+    public BigDecimal getAmount() {
+        return amount;
+    }
 
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
-	}
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
 
-	public PaymentStatus getStatus() {
-		return status;
-	}
+    public PaymentStatus getStatus() {
+        return status;
+    }
 
-	public void setStatus(PaymentStatus status) {
-		this.status = status;
-	}
+    public void setStatus(PaymentStatus status) {
+        this.status = status;
+    }
 
-	public Integer getUserId() {
-		return userId;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	public enum PaymentStatus {
-		PENDING, COMPLETED, FAILED
-	}
+    public enum PaymentStatus {
+        PENDING, COMPLETED, FAILED
+    }
+
+    @Override
+    public String toString() {
+        return "Payment [id=" + id + ", booking=" + booking + ", paymentDate=" + paymentDate + ", amount=" + amount
+                + ", status=" + status + ", user=" + user + "]";
+    }
 }

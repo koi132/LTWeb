@@ -9,20 +9,25 @@ import java.util.Map;
 import org.apache.el.stream.Optional;
 import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import vn.iotstar.utescore.entity.Booking;
+import vn.iotstar.utescore.entity.Payment;
 import vn.iotstar.utescore.entity.Thongtinsan;
 import vn.iotstar.utescore.repository.BookingRepository;
 import vn.iotstar.utescore.services.BookingService;
+import vn.iotstar.utescore.services.PaymentService;
 import vn.iotstar.utescore.services.ThongTinSanService;
 
 @Controller
@@ -38,7 +43,7 @@ public class ManagerController {
 	@Autowired
 	private ThongTinSanService thongTinSanService;
 
-	@RequestMapping("/admin")
+	@RequestMapping("/manager")
 	public String manageFields(@RequestParam(value = "selectedDate", required = false) LocalDate selectedDate,
 			Model model) {
 		// Nếu selectedDate không có giá trị, gán giá trị mặc định là ngày hiện tại
@@ -54,7 +59,7 @@ public class ManagerController {
 		java.util.List<Booking> bookings = bookingRepository.findBookingsForCurrentTime(currentDate, currentTime);
 
 		// Mảng để lưu trạng thái của 5 sân
-		Booking[] fields = new Booking[20];
+		Booking[] fields = new Booking[5];
 
 		// Lặp qua các booking và gán chúng vào các sân tương ứng
 		for (Booking booking : bookings) {
@@ -89,10 +94,15 @@ public class ManagerController {
 		model.addAttribute("Datebookings", Datebookings);
 		model.addAttribute("selectedDate", selectedDate);
 
-		return "admin/qlsb"; // Trang hiển thị
+
+		
+		return "manager/qlsb"; // Trang hiển thị
+
+
+
 	}
 
-	@RequestMapping("/admin/seen")
+	@RequestMapping("/manager/seen")
 	public String processSeen(@RequestParam("selectedDate") LocalDate selectedDate, Model model) {
 		// Xử lý tại trang /admin/seen
 		// Ví dụ: Lấy thông tin booking cho ngày đã chọn
@@ -121,7 +131,7 @@ public class ManagerController {
 		model.addAttribute("selectedDate", selectedDate);
 
 		// Sau khi xử lý xong, redirect về trang /admin/qlsb
-		return "redirect:/admin?selectedDate=" + selectedDate;
+		return "redirect:/manager?selectedDate=" + selectedDate;
 	}
 
 	@RequestMapping("/search")
@@ -140,23 +150,59 @@ public class ManagerController {
 		System.out.println("Kết quả tìm kiếm: " + searchResults);
 
 		// Trả về trang kết quả tìm kiếm
-		return "admin/search"; // Tên trang hiển thị kết quả tìm kiếm
+		return "manager/search"; // Tên trang hiển thị kết quả tìm kiếm
 	}
 
-	@GetMapping("/manager/add")
-	public String showAddYardPage() {
-		return "admin/AddYard"; // Trả về file AddYard.html
+
+	@GetMapping("/add")
+    public String showAddYardPage() {
+        return "manager/AddYard";  // Trả về file AddYard.html
+    }
+	@PostMapping("/add1")
+	public String addThongTinSan(@RequestParam String fieldName, @RequestParam String type) {
+	    // Thêm thông tin sân vào cơ sở dữ liệu
+	    //thongTinSanService.addThongTinSan(fieldName, type);
+	    
+	    // Chuyển hướng đến trang quản lý sân sau khi thêm
+	    return "redirect:/manager";  // Sử dụng redirect để chuyển hướng đến trang quản lý sân
+	}
+	
+	@GetMapping("/manager/bookings/delete/{bookingID}")
+	public ResponseEntity<String> deleteBooking(@PathVariable int bookingID) {
+	    try {
+	        bookingService.deleteBooking(bookingID);  // Gọi phương thức delete từ service
+	        return ResponseEntity.ok("Xóa lịch đặt sân thành công!");
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .body("Không thể xóa lịch đặt sân. Vui lòng thử lại.");
+	    }
+	}
+	
+	
+	
+	@Autowired
+	private PaymentService paymentService;
+	
+	@GetMapping("/historyPay")
+	public String getAllPayments(Model model) {
+	    // Lấy tất cả thanh toán từ service
+	    java.util.List<Payment> payments = paymentService.getAllPayments();
+	    
+	 // In dữ liệu vào console
+	    System.out.println("Payments fetched: " + payments);
+	    
+	    // Thêm dữ liệu vào model
+	    model.addAttribute("payments", payments);  // Dữ liệu sẽ được sử dụng trong view
+	    
+	    // Trả về tên view (JSP hoặc HTML)
+	    return "manager/HistoryPay";  // Đây là tên file JSP sẽ được Spring tìm kiếm và trả về
 	}
 
-	@PostMapping("/manager/add1")
-	public String addThongTinSan(@RequestParam String fieldName, @RequestParam String type, @RequestParam Float price,
-			@RequestParam String detail) {
-		// Thêm thông tin sân vào cơ sở dữ liệu
-		thongTinSanService.addThongTinSan(fieldName, type, price, detail);
+	@GetMapping("/doanhthu")
+    public String doanhthu() {
+        return "manager/doanhthu";  
+    }
+	
 
-		// Chuyển hướng đến trang quản lý sân sau khi thêm
-		return "redirect:/admin"; // Sử dụng redirect để chuyển hướng đến trang quản lý sân
-
-	}
 
 }
