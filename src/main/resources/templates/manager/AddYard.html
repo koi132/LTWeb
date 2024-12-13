@@ -143,7 +143,7 @@
 				<button class="rounded-circle border-0" id="sidebarToggle"></button>
 			</div>
 
-			
+
 
 		</ul>
 		<!-- End of Sidebar -->
@@ -178,124 +178,122 @@
 					</form>
 
 
+					<!-- Begin Page Content -->
+					<div class="container-fluid d-flex align-items-center justify-content-center min-vh-100">
+						<div class="card shadow mb-4" style="width: 80%; max-width: 800px;">
+							<div class="card-header py-3">
+								<h6 class="m-0 font-weight-bold text-primary text-center">Thêm Thông Tin Sân</h6>
+							</div>
+							<div class="card-body">
+								<form action="/manager/add1" method="POST">
+									<div class="form-group row">
+										<label for="fieldName" class="col-sm-3 col-form-label">Tên Sân:</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="fieldName" name="fieldName"
+												required>
+										</div>
+									</div>
 
-<!-- Begin Page Content -->
-<div class="container-fluid">
+									<div class="form-group row">
+										<label for="type" class="col-sm-3 col-form-label">Loại Sân:</label>
+										<div class="col-sm-9">
+											<select class="form-control" id="type" name="type" required>
+												<option value="">Chọn loại sân</option>
+												<option value="5">Sân 5 người</option>
+												<option value="7">Sân 7 người</option>
+												<option value="10">Sân 11 người</option>
+											</select>
+										</div>
+									</div>
 
+									<div class="form-group row">
+										<label for="price" class="col-sm-3 col-form-label">Giá Tiền:</label>
+										<div class="col-sm-9">
+											<input type="number" class="form-control" id="price" name="price" required>
+										</div>
+									</div>
 
+									<div class="form-group row">
+										<label for="detail" class="col-sm-3 col-form-label">Thông Tin Sân:</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="detail" name="detail" required>
+										</div>
+									</div>
 
+									<div class="form-group row">
+										<div class="col-sm-9 offset-sm-3">
+											<button type="submit" class="btn btn-primary">Thêm Sân</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
 
-	<style>
-		body {
-			font-family: Arial, sans-serif;
-			margin: 0;
-			padding: 0;
-			background-color: #f4f4f4;
-		}
+					<style>
+						#content {
+							position: relative;
+							min-height: 100vh;
+						}
 
-		.container {
-			width: 50%;
-			margin: 50px auto;
-			background-color: #fff;
-			padding: 20px;
-			border-radius: 8px;
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-		}
+						.container-fluid {
+							padding-top: 80px;
+							/* Tạo khoảng cách với navbar */
+							margin-bottom: 2rem;
+						}
 
-		h1 {
-			text-align: center;
-			margin-bottom: 20px;
-		}
+						.card {
+							margin: 0 auto;
+						}
 
-		label {
-			font-weight: bold;
-		}
+						.form-group {
+							margin-bottom: 1.5rem;
+						}
 
-		.form-group {
-			margin-bottom: 15px;
-		}
+						.col-form-label {
+							font-weight: 500;
+						}
 
-		.form-group input,
-		.form-group select {
-			width: 100%;
-			padding: 10px;
-			font-size: 16px;
-			margin-top: 5px;
-			border: 1px solid #ccc;
-			border-radius: 4px;
-		}
+						.btn-primary {
+							padding: 0.5rem 2rem;
+							font-size: 1rem;
+						}
 
-		.form-group button {
-			width: 100%;
-			padding: 10px;
-			font-size: 16px;
-			background-color: #007bff;
-			color: white;
-			border: none;
-			border-radius: 4px;
-			cursor: pointer;
-		}
-
-		.form-group button:hover {
-			background-color: #0056b3;
-		}
-
-		.form-group button:active {
-			background-color: #004085;
-		}
-	</style>
-	<div class="container mt-4">
-		<h1>Thêm Thông Tin Sân</h1>
-		<form action="/manager/add1" method="POST">
-			<div class="form-group"> <label for="fieldName">Tên Sân:</label> <input type="text" id="fieldName"
-					name="fieldName" required> </div>
-			<div class="form-group"> <label for="type">Loại Sân:</label> <select id="type" name="type" required>
-					<option value="">Chọn loại sân</option>
-					<option value="5">Sân 5 người</option>
-					<option value="7">Sân 7 người</option>
-					<option value="10">Sân 11 người</option>
-				</select> </div>
-			<div class="form-group"> <label for="price">Giá Tiền:</label> <input type="number" id="price" name="price"
-					required> </div>
-			<div class="form-group"> <label for="detail">Thông Tin Sân:</label> <input type="text" id="detail"
-					name="detail" required> </div>
-			<div class="form-group"> <button type="submit">Thêm Sân</button> </div>
-		</form>
-	</div>
-
-
-
-
-</div>
-<!-- End of Main Content -->
-
-
+						/* Đảm bảo form không bị che bởi sidebar */
+						@media (min-width: 768px) {
+							.container-fluid {
+								margin-left: 224px;
+								/* Chiều rộng của sidebar */
+								width: calc(100% - 224px);
+							}
+						}
+					</style>
 
 
 
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-	<i class="fas fa-angle-up"></i>
-</a>
+					<!-- Scroll to Top Button-->
+					<a class="scroll-to-top rounded" href="#page-top">
+						<i class="fas fa-angle-up"></i>
+					</a>
 
 
 
-<!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+					<!-- Bootstrap core JavaScript-->
+					<script src="vendor/jquery/jquery.min.js"></script>
+					<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+					<!-- Core plugin JavaScript-->
+					<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-<!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
+					<!-- Custom scripts for all pages-->
+					<script src="js/sb-admin-2.min.js"></script>
 
-<!-- Page level plugins -->
-<script src="vendor/chart.js/Chart.min.js"></script>
+					<!-- Page level plugins -->
+					<script src="vendor/chart.js/Chart.min.js"></script>
 
-<!-- Page level custom scripts -->
-<script src="js/demo/chart-area-demo.js"></script>
-<script src="js/demo/chart-pie-demo.js"></script>
+					<!-- Page level custom scripts -->
+					<script src="js/demo/chart-area-demo.js"></script>
+					<script src="js/demo/chart-pie-demo.js"></script>
 
 </body>
 

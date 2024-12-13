@@ -1,6 +1,7 @@
 package vn.iotstar.utescore.repository;
 
 import vn.iotstar.utescore.entity.Payment;
+import vn.iotstar.utescore.entity.User;
 
 import java.util.List;
 
@@ -9,5 +10,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Integer> {
-	List<Payment> findByUserId(int userId);
+	List<Payment> findByUser(User user);
+	
 }

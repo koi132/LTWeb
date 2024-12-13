@@ -3,6 +3,7 @@ package vn.iotstar.utescore.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vn.iotstar.utescore.entity.Payment;
+import vn.iotstar.utescore.entity.User;
 import vn.iotstar.utescore.repository.PaymentRepository;
 
 import java.util.List;
@@ -29,12 +30,10 @@ public class PaymentService {
 		paymentRepository.deleteById(id);
 	}
 
-	
-	
-
-	public List<Payment> getPaymentsByUserId(int userId) {
-		return paymentRepository.findByUserId(userId);
+	public List<Payment> getPaymentsByUser(User user) {
+		return paymentRepository.findByUser(user);
 	}
+
 
 	
 }

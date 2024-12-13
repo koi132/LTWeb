@@ -5,7 +5,9 @@ import org.springframework.stereotype.Controller; // Đổi @RestController thà
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import vn.iotstar.utescore.entity.Payment;
+import vn.iotstar.utescore.entity.User;
 import vn.iotstar.utescore.services.PaymentService;
+import vn.iotstar.utescore.services.UserService;
 
 import java.util.List;
 
@@ -15,6 +17,9 @@ public class PaymentController {
 
 	@Autowired
 	private PaymentService paymentService;
+
+	@Autowired
+	private UserService userService;
 
 	@PostMapping
 	@ResponseBody // Dùng @ResponseBody để trả về JSON cho API POST
@@ -40,11 +45,17 @@ public class PaymentController {
 		paymentService.deletePayment(id);
 	}
 
-	
+	@GetMapping("/list")
+	public String listPayments(Model model) {
+		List<Payment> payments = paymentService.getAllPayments();
+		model.addAttribute("payments", payments);
+		return "user/payment-list";
+	}
 
 	@GetMapping("/list/{userId}")
 	public String listPaymentsByUserId(@PathVariable int userId, Model model) {
-		List<Payment> payments = paymentService.getPaymentsByUserId(userId);
+		User user = userService.getUserById(userId);
+		List<Payment> payments = paymentService.getPaymentsByUser(user);
 		model.addAttribute("payments", payments);
 		return "user/payment-list";
 	}

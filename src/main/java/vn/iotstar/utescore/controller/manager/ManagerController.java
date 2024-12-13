@@ -202,7 +202,4 @@ public class ManagerController {
     public String doanhthu() {
         return "manager/doanhthu";  
     }
-	
-
-
 }
