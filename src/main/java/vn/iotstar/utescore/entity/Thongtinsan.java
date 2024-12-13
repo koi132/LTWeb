@@ -1,58 +1,82 @@
 package vn.iotstar.utescore.entity;
+
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "thongtinsan")
 public class Thongtinsan {
 
-	 @Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    @Column(name = "FieldID")
-	    private int fieldID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "FieldID")
+    private int fieldID;
 
-	    @Column(name = "FieldName", nullable = false, length = 50)
-	    private String fieldName;
+    @Column(name = "FieldName", nullable = false, length = 50)
+    private String fieldName;
 
-	    @Column(name = "Type", nullable = false, length = 20)
-	    private String type;
+    @Column(name = "Type", nullable = false, length = 20)
+    private String type;
 
-	    // Constructors
-	    public Thongtinsan() {
-	    }
+    @Column(name = "Price", nullable = false)
+    private double price;  // Thêm thuộc tính price
 
-	    public Thongtinsan(String fieldName, String type) {
-	        this.fieldName = fieldName;
-	        this.type = type;
-	    }
+    @Column(name = "Detail", length = 255)  // Có thể điều chỉnh độ dài tùy thuộc vào yêu cầu
+    private String detail;  // Thêm thuộc tính detail
 
-	    // Getters and Setters
-	    public int getFieldID() {
-	        return fieldID;
-	    }
+    // Constructors
+    public Thongtinsan() {
+    }
 
-	    public void setFieldID(int fieldID) {
-	        this.fieldID = fieldID;
-	    }
+    public Thongtinsan(String fieldName, String type, double price, String detail) {
+        this.fieldName = fieldName;
+        this.type = type;
+        this.price = price;
+        this.detail = detail;
+    }
 
-	    public String getFieldName() {
-	        return fieldName;
-	    }
+    // Getters and Setters
+    public int getFieldID() {
+        return fieldID;
+    }
 
-	    public void setFieldName(String fieldName) {
-	        this.fieldName = fieldName;
-	    }
+    public void setFieldID(int fieldID) {
+        this.fieldID = fieldID;
+    }
 
-	    public String getType() {
-	        return type;
-	    }
+    public String getFieldName() {
+        return fieldName;
+    }
 
-	    public void setType(String type) {
-	        this.type = type;
-	    }
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
+    }
 
-		@Override
-		public String toString() {
-			return "Thongtinsan [fieldID=" + fieldID + ", fieldName=" + fieldName + ", type=" + type + "]";
-		}
-	    
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+
+    @Override
+    public String toString() {
+        return "Thongtinsan [fieldID=" + fieldID + ", fieldName=" + fieldName + ", type=" + type + ", price=" + price + ", detail=" + detail + "]";
+    }
 }

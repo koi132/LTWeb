@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt Sân Bóng</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .pitch-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .modal {
+            background-color: rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-center mb-8 text-green-700">Đặt Sân Bóng</h1>
+        
+        <div id="pitchContainer" class="grid grid-cols-5 gap-4">
+            <!-- Các sân sẽ được thêm vào đây bằng JavaScript -->
+        </div>
+
+        <div id="loadMore" class="text-center mt-8">
+            <button class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition">
+                Xem Thêm Sân
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal Chi Tiết Sân Bóng -->
+    <div id="pitchDetailModal" class="fixed inset-0 z-50 hidden modal items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 id="modalPitchName" class="text-2xl font-bold"></h2>
+                    <button id="closeModal" class="text-gray-600 hover:text-gray-900">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <img id="modalPitchImage" src="" alt="Chi tiết sân bóng" class="w-full h-64 object-cover rounded-md mb-4">
+                    </div>
+                    <div>
+                        <div class="mb-4">
+                            <p class="font-semibold text-gray-600">Giá Thuê:</p>
+                            <p id="modalPitchPrice" class="text-xl font-bold text-green-600"></p>
+                        </div>
+                        <div class="mb-4">
+                            <p class="font-semibold text-gray-600">Trạng Thái:</p>
+                            <p id="modalPitchStatus" class="font-bold"></p>
+                        </div>
+                        <div class="mb-4">
+                            <p class="font-semibold text-gray-600">Chi Tiết Sân:</p>
+                            <ul id="modalPitchDetails" class="list-disc list-inside text-gray-700">
+                                <!-- Chi tiết sẽ được điền động -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-end space-x-4">
+                    <button id="bookPitchButton" class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600">
+                        Đặt Sân Ngay
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mảng chứa thông tin chi tiết các sân bóng
+        const pitches = [
+            { 
+                id: 1, 
+                name: 'Sân Bóng A', 
+                price: 200000, 
+                status: 'Còn Trống', 
+                details: [
+                    'Diện tích: 40m x 20m',
+                    'Mặt sân: Cỏ nhân tạo',
+                    'Chiếu sáng: Đèn LED hiện đại',
+                    'Bao gồm: Ghế ngồi, phòng thay đồ'
+                ],
+                facilities: ['Bãi đỗ xe', 'Quầy nước', 'Khu vệ sinh']
+            },
+            // ... (giữ nguyên các sân bóng khác như trước)
+            { id: 2, name: 'Sân Bóng B', price: 250000, status: 'Sắp Đầy' ,
+            	details: [
+                    'Diện tích: 40m x 20m',
+                    'Mặt sân: Cỏ nhân tạo',
+                    'Chiếu sáng: Đèn LED hiện đại',
+                    'Bao gồm: Ghế ngồi, phòng thay đồ'
+                ],
+                facilities: ['Bãi đỗ xe', 'Quầy nước', 'Khu vệ sinh']},
+            
+            { id: 3, name: 'Sân Bóng C', price: 180000, status: 'Còn Trống' ,
+            	details: [
+                    'Diện tích: 40m x 20m',
+                    'Mặt sân: Cỏ nhân tạo',
+                    'Chiếu sáng: Đèn LED hiện đại',
+                    'Bao gồm: Ghế ngồi, phòng thay đồ'
+                ],
+                facilities: ['Bãi đỗ xe', 'Quầy nước', 'Khu vệ sinh']},
+            { id: 4, name: 'Sân Bóng D', price: 220000, status: 'Đã Đặt' ,
+            	details: [
+                    'Diện tích: 40m x 20m',
+                    'Mặt sân: Cỏ nhân tạo',
+                    'Chiếu sáng: Đèn LED hiện đại',
+                    'Bao gồm: Ghế ngồi, phòng thay đồ'
+                ],
+                facilities: ['Bãi đỗ xe', 'Quầy nước', 'Khu vệ sinh']},
+            { id: 5, name: 'Sân Bóng E', price: 190000, status: 'Còn Trống' ,
+            	details: [
+                    'Diện tích: 40m x 20m',
+                    'Mặt sân: Cỏ nhân tạo',
+                    'Chiếu sáng: Đèn LED hiện đại',
+                    'Bao gồm: Ghế ngồi, phòng thay đồ'
+                ],
+                facilities: ['Bãi đỗ xe', 'Quầy nước', 'Khu vệ sinh']},
+            { id: 6, name: 'Sân Bóng F', price: 230000, status: 'Sắp Đầy' },
+            { id: 7, name: 'Sân Bóng G', price: 210000, status: 'Còn Trống' },
+            { id: 8, name: 'Sân Bóng H', price: 240000, status: 'Đã Đặt' },
+            { id: 9, name: 'Sân Bóng I', price: 260000, status: 'Còn Trống' },
+            { id: 10, name: 'Sân Bóng J', price: 200000, status: 'Sắp Đầy' },
+            { id: 11, name: 'Sân Bóng K', price: 180000, status: 'Còn Trống' },
+            { id: 12, name: 'Sân Bóng L', price: 220000, status: 'Đã Đặt' }
+        ];
+
+        const pitchContainer = document.getElementById('pitchContainer');
+        const loadMoreButton = document.getElementById('loadMore');
+        const modalDetailsPitch = document.getElementById('pitchDetailModal');
+        const closeModalButton = document.getElementById('closeModal');
+        const bookPitchButton = document.getElementById('bookPitchButton');
+
+        let currentPage = 1;
+        const itemsPerPage = 5;
+
+        function renderPitches(page) {
+            const start = (page - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const paginatedPitches = pitches.slice(start, end);
+
+            paginatedPitches.forEach(pitch => {
+                const pitchCard = document.createElement('div');
+                pitchCard.classList.add('pitch-card', 'bg-white', 'rounded-lg', 'shadow-md', 'p-4', 'text-center', 'transition', 'transform', 'hover:scale-105', 'cursor-pointer');
+                
+                let statusColor = pitch.status === 'Còn Trống' ? 'text-green-500' : 
+                                   pitch.status === 'Sắp Đầy' ? 'text-yellow-500' : 'text-red-500';
+
+                pitchCard.innerHTML = `
+                    <div class="mb-4">
+                        <img src="/api/placeholder/250/150" alt="${pitch.name}" class="w-full h-40 object-cover rounded-md">
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">${pitch.name}</h3>
+                    <p class="text-gray-600 mb-2">${pitch.price.toLocaleString()} VNĐ</p>
+                    <p class="${statusColor} font-bold">${pitch.status}</p>
+                `;
+
+                // Thêm sự kiện click để hiển thị chi tiết
+                pitchCard.addEventListener('click', () => showPitchDetails(pitch));
+
+                pitchContainer.appendChild(pitchCard);
+            });
+        }
+
+        function showPitchDetails(pitch) {
+            // Cập nhật thông tin modal
+            document.getElementById('modalPitchName').textContent = pitch.name;
+            document.getElementById('modalPitchPrice').textContent = `${pitch.price.toLocaleString()} VNĐ`;
+            document.getElementById('modalPitchImage').src = '/api/placeholder/500/300';
+            
+            // Cập nhật trạng thái
+            const statusElement = document.getElementById('modalPitchStatus');
+            statusElement.textContent = pitch.status;
+            statusElement.className = pitch.status === 'Còn Trống' ? 'text-green-500 font-bold' : 
+                                       pitch.status === 'Sắp Đầy' ? 'text-yellow-500 font-bold' : 'text-red-500 font-bold';
+
+            // Điền chi tiết sân
+            const detailsList = document.getElementById('modalPitchDetails');
+            detailsList.innerHTML = ''; // Xóa các mục cũ
+            pitch.details.forEach(detail => {
+                const li = document.createElement('li');
+                li.textContent = detail;
+                detailsList.appendChild(li);
+            });
+
+            // Hiển thị modal
+            modalDetailsPitch.classList.remove('hidden');
+            modalDetailsPitch.classList.add('flex');
+        }
+
+        // Đóng modal
+        closeModalButton.addEventListener('click', () => {
+            modalDetailsPitch.classList.remove('flex');
+            modalDetailsPitch.classList.add('hidden');
+        });
+
+        // Đặt sân
+        bookPitchButton.addEventListener('click', () => {
+            alert('Chức năng đặt sân đang được phát triển!');
+        });
+
+        // Render trang đầu tiên
+        renderPitches(currentPage);
+
+        // Xử lý sự kiện cuộn và nút "Xem Thêm"
+        loadMoreButton.addEventListener('click', () => {
+            currentPage++;
+            renderPitches(currentPage);
+
+            // Ẩn nút "Xem Thêm" nếu đã hiển thị hết sân
+            if (currentPage * itemsPerPage >= pitches.length) {
+                loadMoreButton.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
