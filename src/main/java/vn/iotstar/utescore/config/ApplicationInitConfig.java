@@ -23,7 +23,6 @@ public class ApplicationInitConfig {
 	ApplicationRunner applicationRunner(UserRepository userRepository) {
 		return args -> {
 			if (userRepository.findUserByEmail("admin@admin.com").isEmpty()) {
-
 				User ad = User.builder()
 						.email("admin@admin.com")
 						.password(passwordEncoder.encode("admin"))
