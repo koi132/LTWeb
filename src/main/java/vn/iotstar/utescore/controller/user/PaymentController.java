@@ -40,10 +40,12 @@ public class PaymentController {
 		paymentService.deletePayment(id);
 	}
 
-	@GetMapping("/list")
-	public String listPayments(Model model) {
-		List<Payment> payments = paymentService.getAllPayments();
+	
+
+	@GetMapping("/list/{userId}")
+	public String listPaymentsByUserId(@PathVariable int userId, Model model) {
+		List<Payment> payments = paymentService.getPaymentsByUserId(userId);
 		model.addAttribute("payments", payments);
-		return "user/payment-list"; // Trả về tên file HTML
+		return "user/payment-list";
 	}
 }
