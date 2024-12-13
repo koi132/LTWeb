@@ -23,9 +23,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import vn.iotstar.utescore.entity.Booking;
+import vn.iotstar.utescore.entity.Payment;
 import vn.iotstar.utescore.entity.Thongtinsan;
 import vn.iotstar.utescore.repository.BookingRepository;
 import vn.iotstar.utescore.services.BookingService;
+import vn.iotstar.utescore.services.PaymentService;
 import vn.iotstar.utescore.services.ThongTinSanService;
 
 @Controller
@@ -159,7 +161,7 @@ public class ManagerController {
 	@PostMapping("/add1")
 	public String addThongTinSan(@RequestParam String fieldName, @RequestParam String type) {
 	    // Thêm thông tin sân vào cơ sở dữ liệu
-	    thongTinSanService.addThongTinSan(fieldName, type);
+	    //thongTinSanService.addThongTinSan(fieldName, type);
 	    
 	    // Chuyển hướng đến trang quản lý sân sau khi thêm
 	    return "redirect:/manager";  // Sử dụng redirect để chuyển hướng đến trang quản lý sân
@@ -176,6 +178,30 @@ public class ManagerController {
 	    }
 	}
 	
+	
+	
+	@Autowired
+	private PaymentService paymentService;
+	
+	@GetMapping("/historyPay")
+	public String getAllPayments(Model model) {
+	    // Lấy tất cả thanh toán từ service
+	    java.util.List<Payment> payments = paymentService.getAllPayments();
+	    
+	 // In dữ liệu vào console
+	    System.out.println("Payments fetched: " + payments);
+	    
+	    // Thêm dữ liệu vào model
+	    model.addAttribute("payments", payments);  // Dữ liệu sẽ được sử dụng trong view
+	    
+	    // Trả về tên view (JSP hoặc HTML)
+	    return "manager/HistoryPay";  // Đây là tên file JSP sẽ được Spring tìm kiếm và trả về
+	}
+
+	@GetMapping("/doanhthu")
+    public String doanhthu() {
+        return "manager/doanhthu";  
+    }
 	
 
 
