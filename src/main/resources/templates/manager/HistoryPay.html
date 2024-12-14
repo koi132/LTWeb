@@ -12,13 +12,13 @@
 	<title>UTESCORE</title>
 
 	<!-- Custom fonts for this template-->
-	<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+	<link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 	<link
 		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
 		rel="stylesheet">
 
 	<!-- Custom styles for this template-->
-	<link href="css/sb-admin-2.min.css" rel="stylesheet">
+	<link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
@@ -31,7 +31,7 @@
 		<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 			<!-- Sidebar - Brand -->
-			<a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin">
+			<a class="sidebar-brand d-flex align-items-center justify-content-center" href="/manager">
 				<div class="sidebar-brand-icon rotate-n-15">
 					<i class="fas fa-laugh-wink"></i>
 				</div>
@@ -271,7 +271,7 @@
 								</h6>
 								<a class="dropdown-item d-flex align-items-center" href="#">
 									<div class="dropdown-list-image mr-3">
-										<img class="rounded-circle" src="img/undraw_profile_1.svg" alt="...">
+										<img class="rounded-circle" src="/img/undraw_profile_1.svg" alt="...">
 										<div class="status-indicator bg-success"></div>
 									</div>
 									<div class="font-weight-bold">
@@ -282,7 +282,7 @@
 								</a>
 								<a class="dropdown-item d-flex align-items-center" href="#">
 									<div class="dropdown-list-image mr-3">
-										<img class="rounded-circle" src="img/undraw_profile_2.svg" alt="...">
+										<img class="rounded-circle" src="/img/undraw_profile_2.svg" alt="...">
 										<div class="status-indicator"></div>
 									</div>
 									<div>
@@ -293,7 +293,7 @@
 								</a>
 								<a class="dropdown-item d-flex align-items-center" href="#">
 									<div class="dropdown-list-image mr-3">
-										<img class="rounded-circle" src="img/undraw_profile_3.svg" alt="...">
+										<img class="rounded-circle" src="/img/undraw_profile_3.svg" alt="...">
 										<div class="status-indicator bg-warning"></div>
 									</div>
 									<div>
@@ -325,7 +325,7 @@
 							<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
 								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								<span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-								<img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+								<img class="/img-profile rounded-circle" src="/img/undraw_profile.svg">
 							</a>
 							<!-- Dropdown - User Information -->
 							<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -359,91 +359,109 @@
 				<div class="container-fluid">
 
 
-					
+					<h1>Payment History</h1>
+    
+    <table class="calendar-table">
+    <thead>
+        <tr>
+                <th>ID</th>
+                <th>Tên khách hàng</th>
+                <th>Booking Code</th>
+                <th>Payment Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+            </tr>
+    </thead>
+    <tbody>
+            <!-- Duyệt qua danh sách thanh toán và hiển thị thông tin -->
+            <tr th:each="payment : ${payments}">
+                <td th:text="${payment.id}"></td>
+                <td th:text="${payment.booking.customerName}"></td>
+                <td th:text="${payment.booking.booking_code}"></td>
+                <td th:text="${payment.paymentDate}"></td>
+                <td th:text="${payment.amount}"></td>
+                <td th:text="${payment.status}"></td>
+            </tr>
+        </tbody>
+</table>
+<style>
+						body {
+							font-family: Arial, sans-serif;
+							background-color: #f4f4f4;
+						}
 
- <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
+						.container {
+							max-width: 1200px;
+							margin: 20px auto;
+							padding: 20px;
+							background-color: #fff;
+							border-radius: 8px;
+							box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+						}
 
-        .container {
-            width: 50%;
-            margin: 50px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+						h1 {
+							text-align: center;
+						}
 
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+						.search-container {
+							text-align: center;
+							margin-bottom: 20px;
+						}
 
-        label {
-            font-weight: bold;
-        }
+						.field-list {
+							display: grid;
+							grid-template-columns: repeat(5, 1fr);
+							gap: 20px;
+						}
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+						.field-item {
+							padding: 15px;
+							background-color: #f8f9fa;
+							border: 1px solid #ddd;
+							border-radius: 8px;
+							text-align: center;
+							box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+						}
 
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
+						.field-item h3 {
+							margin-bottom: 10px;
+						}
 
-        .form-group button {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    background-color: #007bff; /* Màu xanh dương */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
+						.status-booked {
+							color: red;
+						}
 
-.form-group button:hover {
-    background-color: #0056b3; /* Màu xanh dương đậm hơn khi hover */
-}
+						.status-available {
+							color: green;
+						}
 
-.form-group button:active {
-    background-color: #004085; /* Màu xanh dương đậm hơn khi active */
-}
+						.calendar {
+							margin-top: 30px;
+						}
+
+						.calendar-table {
+							width: 100%;
+							border-collapse: collapse;
+						}
+
+						.calendar-table th,
+						.calendar-table td {
+							padding: 10px;
+							border: 1px solid #ddd;
+							text-align: center;
+						}
+
+						.calendar-table th {
+							background-color: #f8f9fa;
+						}
+
+						.status {
+							color: blue;
+							cursor: pointer;
+						}
+					</style>
 
 
-    </style>
- <div class="container">
-        <h1>Thêm Thông Tin Sân</h1>
-        <form action="/add1" method="POST">
-            <div class="form-group">
-                <label for="fieldName">Tên Sân:</label>
-                <input type="text" id="fieldName" name="fieldName" required>
-            </div>
-
-            <div class="form-group">
-                <label for="type">Loại Sân:</label>
-                <select id="type" name="type" required>
-                    <option value="">Chọn loại sân</option>
-                    <option value="5">Sân 5 người</option>
-                    <option value="7">Sân 7 người</option>
-                    <option value="10">Sân 11 người</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <button type="submit">Thêm Sân</button>
-            </div>
-        </form>
-    </div>
 
 
 

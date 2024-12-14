@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Danh Sách Các Sân Đã Đặt</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<style>
+		.field-image {
+			width: 100px;
+			height: 100px;
+			object-fit: cover;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container mt-4">
+		<h1>Danh Sách Các Sân Đã Đặt</h1>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Ảnh Sân</th>
+					<th>Mã Đặt Sân</th>
+					<th>Ngày Đặt</th>
+					<th>Thời Gian Bắt Đầu</th>
+					<th>Thời Gian Kết Thúc</th>
+					<th>Trạng Thái</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="booking : ${bookings}">
+					<td><img src="/src/main/resources/image/footballfield1.jpg" alt="San" class="field-image"></td>
+					<td th:text="${booking.bookingCode}"></td>
+					<td th:text="${booking.bookingDate}"></td>
+					<td th:text="${booking.startTime}"></td>
+					<td th:text="${booking.endTime}"></td>
+					<td th:text="${booking.status}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

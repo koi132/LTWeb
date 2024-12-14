@@ -12,11 +12,12 @@ public class Payment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "booking_id", nullable = false)
-	private Integer bookingId;
+	@ManyToOne
+	@JoinColumn(name = "booking_id", referencedColumnName = "BookingID", insertable = false, updatable = false)
+	private Booking booking; // Liên kết với bảng Booking
 
 	@Column(name = "payment_date", nullable = false, columnDefinition = "DATETIME DEFAULT GETDATE()")
-	private LocalDateTime paymentDate;
+	private LocalDateTime paymentDate = LocalDateTime.now();
 
 	@Column(name = "amount", nullable = false, precision = 10, scale = 2)
 	private BigDecimal amount;
@@ -25,12 +26,11 @@ public class Payment {
 	@Column(name = "status", nullable = false)
 	private PaymentStatus status = PaymentStatus.PENDING;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "payment_method", nullable = false)
-	private PaymentMethod paymentMethod;
+	@ManyToOne
+	@JoinColumn(name = "userId", nullable = false) // Tạo khóa ngoại liên kết với bảng Users
+	private User user; // Người thanh toán
 
-	// Getters and Setters
-
+	// Getter và Setter cho các trường
 	public Integer getId() {
 		return id;
 	}
@@ -39,12 +39,12 @@ public class Payment {
 		this.id = id;
 	}
 
-	public Integer getBookingId() {
-		return bookingId;
+	public Booking getBooking() {
+		return booking;
 	}
 
-	public void setBookingId(Integer bookingId) {
-		this.bookingId = bookingId;
+	public void setBooking(Booking booking) {
+		this.booking = booking;
 	}
 
 	public LocalDateTime getPaymentDate() {
@@ -71,19 +71,26 @@ public class Payment {
 		this.status = status;
 	}
 
-	public PaymentMethod getPaymentMethod() {
-		return paymentMethod;
+	public void setUserId(int userId) {
+		this.user = new User();
+		this.user.setUserId(userId);
 	}
 
-	public void setPaymentMethod(PaymentMethod paymentMethod) {
-		this.paymentMethod = paymentMethod;
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public enum PaymentStatus {
 		PENDING, COMPLETED, FAILED
 	}
 
-	public enum PaymentMethod {
-		CREDIT_CARD, DEBIT_CARD, PAYPAL, CASH
+	@Override
+	public String toString() {
+		return "Payment [id=" + id + ", booking=" + booking + ", paymentDate=" + paymentDate + ", amount=" + amount
+				+ ", status=" + status + ", user=" + user + "]";
 	}
 }
