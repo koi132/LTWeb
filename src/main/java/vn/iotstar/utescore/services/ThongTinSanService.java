@@ -12,14 +12,21 @@ import vn.iotstar.utescore.repository.ThongTinSanRepository;
 @Service
 public class ThongTinSanService {
 	@Autowired
-    private ThongTinSanRepository thongTinSanRepository;
-	
-    public Thongtinsan addThongTinSan(int fieldID, String fieldName, String type, double price, String detail, String address, String facilities) {
-        Thongtinsan thongtinsan = new Thongtinsan(fieldID, fieldName, type, price, detail, address, facilities);
-        return thongTinSanRepository.save(thongtinsan);
-    }     
-    
-    public List<Thongtinsan> getAllFields() {
+	private ThongTinSanRepository thongTinSanRepository;
+
+	public Thongtinsan addThongTinSan(String fieldName, String type, double price, String detail, String address,
+			String facilities) {
+		Thongtinsan thongtinsan = new Thongtinsan();
+		thongtinsan.setFieldName(fieldName);
+		thongtinsan.setType(type);
+		thongtinsan.setPrice(price);
+		thongtinsan.setDetail(detail);
+		thongtinsan.setAddress(address);
+		thongtinsan.setFacilities(facilities);
+		return thongTinSanRepository.save(thongtinsan);
+	}
+
+	public List<Thongtinsan> getAllFields() {
 		return thongTinSanRepository.findAll();
 	}
 
