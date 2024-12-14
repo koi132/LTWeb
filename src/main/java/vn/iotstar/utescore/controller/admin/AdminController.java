@@ -31,7 +31,7 @@ public class AdminController {
         this.userService = userService;
     }
 
-    @GetMapping("/admin")
+    @GetMapping("/admin/")
     public String getAllUsers(Model model) {
         List<User> users = userService.getAllUsers();
         

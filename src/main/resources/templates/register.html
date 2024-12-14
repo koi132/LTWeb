@@ -47,33 +47,29 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
-                            <form class="user" id="registerForm" action="createUser" method="post">
+                            <form class="user" id="registerForm" action="/createUser" method="post">
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="fullName" name="fullName"
-                                           placeholder="Full Name">
+                                           placeholder="Full Name" required>
                                 </div>
                                 <div class="form-group">
                                     <input type="email" id="email" name="email" class="form-control form-control-user"
-                                           placeholder="Email Address">
+                                           placeholder="Email Address" required>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" id="phone" name="phone" class="form-control form-control-user"
-                                           placeholder="Phone Number"
-                                           pattern="^\d{10}$" required
-                                           title="Số điện thoại phải gồm đúng 10 chữ số"
-                                    >
+                                           placeholder="Phone Number" pattern="^\d{10}$" required
+                                           title="Số điện thoại phải gồm đúng 10 chữ số">
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="password" id="password" name="password" class="form-control form-control-user"
-                                               placeholder="Password"
-                                               pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" required
-                                               title="Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ cái và số"
-                                        >
+                                               placeholder="Password" required
+                                               pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" title="Mật khẩu phải có ít nhất 8 ký tự và bao gồm cả chữ và số">
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="password" id="password1" name="password1" class="form-control form-control-user"
-                                               placeholder="Repeat Password">
+                                               placeholder="Repeat Password" required>
                                     </div>
                                 </div>
                                 <div class="d-grid">
@@ -81,10 +77,6 @@
                                         <i class="fas fa-paper-plane"></i> Register
                                     </button>
                                 </div>
-                                <hr>
-                                <a href="index.html" class="btn btn-google btn-user btn-block">
-                                    <i class="fab fa-google fa-fw"></i> Register with Google
-                                </a>
                             </form>
                             <hr>
                             <div class="text-center">
@@ -117,13 +109,12 @@
             // Lấy giá trị các trường
             const fullName = document.getElementById("fullName").value.trim();
             const email = document.getElementById("email").value.trim();
-            const address = document.getElementById("address").value.trim();
             const password = document.getElementById("password").value.trim();
             const confirmPassword = document.getElementById("password1").value.trim();
             const phone = document.getElementById("phone").value.trim();
 
             // Kiểm tra các trường không được để trống
-            if (!fullName || !email || !address || !password || !confirmPassword || !phone) {
+            if (!fullName || !email || !password || !confirmPassword || !phone) {
                 event.preventDefault();
                 alert("Vui lòng điền đầy đủ tất cả các trường!");
                 return;
@@ -136,13 +127,6 @@
                 return;
             }
 
-            // Kiểm tra mật khẩu mạnh
-            if (!isStrongPassword(password)) {
-                event.preventDefault();
-                alert("Mật khẩu phải chứa ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt!");
-                return;
-            }
-
             // Kiểm tra số điện thoại
             const phonePattern = /^\d{10}$/;
             if (!phonePattern.test(phone)) {
@@ -151,17 +135,6 @@
                 return;
             }
         });
-
-        // Hàm kiểm tra mật khẩu mạnh
-        function isStrongPassword(password) {
-            const minLength = 8;
-            const hasUpperCase = /[A-Z]/.test(password);
-            const hasLowerCase = /[a-z]/.test(password);
-            const hasDigits = /\d/.test(password);
-            const hasSpecialChars = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-            return password.length >= minLength && hasUpperCase && hasLowerCase && hasDigits && hasSpecialChars;
-        }
     });
 </script>
 
