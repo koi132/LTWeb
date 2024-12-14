@@ -14,8 +14,8 @@ public class ThongTinSanService {
 	@Autowired
     private ThongTinSanRepository thongTinSanRepository;
 	
-    public Thongtinsan addThongTinSan(String fieldName, String type, double price, String detail, String address, String facilities) {
-        Thongtinsan thongtinsan = new Thongtinsan(fieldName, type, price, detail, address, facilities);
+    public Thongtinsan addThongTinSan(int fieldID, String fieldName, String type, double price, String detail, String address, String facilities) {
+        Thongtinsan thongtinsan = new Thongtinsan(fieldID, fieldName, type, price, detail, address, facilities);
         return thongTinSanRepository.save(thongtinsan);
     }     
     

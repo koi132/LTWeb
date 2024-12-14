@@ -23,10 +23,10 @@ public class AvailableFootballFieldController {
 		return "user/home";
 	}
 
-	@RequestMapping("/cacsan")
-	public String loadCacSanSanCo() {
-		return "user/sanbong-list";
-	}
+//	@GetMapping("/user/cacsan")
+//	public String loadCacSanSanCo() {
+//		return "user/sanbong-list";
+//	}
 
 	@GetMapping("/api/cacsan")
 	public ResponseEntity<List<Thongtinsan>> getAllFields() {

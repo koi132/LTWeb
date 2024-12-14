@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Danh Sách Sân Bóng</title>
-<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+<link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
 	type="text/css">
 <link
 	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
 	rel="stylesheet">
 
 <!-- Custom styles for this template-->
-<link href="css/sb-admin-2.min.css" rel="stylesheet">
+<link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
 <script src="https://cdn.tailwindcss.com"></script>
 <link
@@ -76,10 +76,10 @@ body {
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 	overflow: hidden;
 	transition: transform 0.3s;
-	
-	align-items: center;    
-    justify-content: center;
-    text-align: center;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	justify-content: center;
 }
 
 .san-bong-card:hover {
@@ -154,7 +154,7 @@ body {
 			</a>
 
 			<!-- Divider -->
-			<hr class="sidebar-divider my-0">			
+			<hr class="sidebar-divider my-0">
 
 			<!-- Divider -->
 			<hr class="sidebar-divider">
@@ -162,10 +162,19 @@ body {
 			<!-- Heading -->
 			<div class="sidebar-heading"></div>
 
-			<li class="nav-item"><a class="nav-link" href="/cacsan"> <i
-					class="fas fa-fw fa-chart-area"></i> <span>Các sân sẵn có</span></a></li>
+			<li class="nav-item"><a class="nav-link" href="/user/cacsan">
+					<i class="fas fa-fw fa-tachometer-alt"></i> <span>Các sân sẵn có</span>
+			</a></li>
 
+			<li class="nav-item active"><a class="nav-link" href="/doanhthu">
+					<i class="fas fa-fw fa-tachometer-alt"></i> <span>Lịch sử
+						thanh toán</span>
+			</a></li>
 
+			<li class="nav-item active"><a class="nav-link" href="/doanhthu">
+					<i class="fas fa-fw fa-tachometer-alt"></i> <span>Các sân đã
+						đặt</span>
+			</a></li>
 
 			<!-- Divider -->
 			<hr class="sidebar-divider">
@@ -219,7 +228,8 @@ body {
 		<!-- End of Sidebar -->
 
 		<!-- Content Wrapper -->
-		<div id="content-wrapper" class="d-flex flex-column" style="width: 100%">
+		<div id="content-wrapper" class="d-flex flex-column"
+			style="width: 100%">
 
 			<!-- Main Content -->
 			<div id="content">
@@ -232,7 +242,7 @@ body {
 					<button id="sidebarToggleTop"
 						class="btn btn-link d-md-none rounded-circle mr-3">
 						<i class="fa fa-bars"></i>
-					</button>			
+					</button>
 
 					<!-- Topbar Navbar -->
 					<ul class="navbar-nav ml-auto">
@@ -425,7 +435,7 @@ body {
 						<!-- Nội dung chi tiết sân bóng sẽ được render ở đây -->
 					</div>
 				</div>
-			</div>			
+			</div>
 		</div>
 	</div>
 
@@ -436,7 +446,7 @@ body {
         let sanBongData = [];
         let filteredData = [];
         let currentPage = 1;
-        const itemsPerPage = 10;
+        const itemsPerPage = 10;        
 
         // Fetch dữ liệu từ API
         async function fetchSanBongData() {
@@ -446,6 +456,7 @@ body {
                     throw new Error('Không thể tải dữ liệu sân bóng');
                 }
                 sanBongData = await response.json();
+                console.log(sanBongData);
                 filteredData = sanBongData.filter(Thongtinsan => 
                 (Thongtinsan.status || '').toLowerCase() === 'còn sân'
             );
@@ -463,8 +474,7 @@ body {
             data.forEach(Thongtinsan => {
                 const card = document.createElement('div');
                 card.className = 'san-bong-card';
-                
-               
+                               
                 const imageUrl = '/img/sanbong.jpg';
 
                 card.innerHTML = `
@@ -476,9 +486,9 @@ body {
                         <p><strong>Loại sân:</strong> <span class="type-color">${Thongtinsan.type || 'Chưa cập nhật'}</p>
                         
                 	<button onclick='viewDetails(${JSON.stringify(Thongtinsan).replace(/'/g, "&apos;")})' 
-                    class="mt-2 w-full bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition">
-                Xem chi tiết
-            </button>
+                    	class="mt-2 w-full bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition">
+               			 Xem chi tiết
+            		</button>
                         
                     </div>
                 `;
@@ -497,7 +507,9 @@ body {
                     console.error('Lỗi parse JSON:', error);
                     return;
                 }
-            }
+            }          
+            
+            console.log('Toàn bộ Thongtinsan:', Thongtinsan);
             
             modalContent.innerHTML = `
                 <div class="text-right">
@@ -551,7 +563,16 @@ body {
                                 <p class="text-gray-700 italic font-semibold">
                                     ${Thongtinsan.facilities || 'Không có thông tin tiện ích'}
                                 </p>
-                            </div>                                 
+                            </div>    
+                            
+                            <div class="flex justify-center mt-4">
+                            
+                            <a href="/user/yard/details/${Thongtinsan.fieldID}" 
+                               class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300">
+                                Đặt Sân
+                            </a>
+                        </div>
+                            
                             </div>
                         </div>
                     </div>
@@ -559,6 +580,7 @@ body {
             `;
 
             modal.style.display = 'block';
+            console.log(Thongtinsan.fieldid)
         }               
 
         function closeModal() {

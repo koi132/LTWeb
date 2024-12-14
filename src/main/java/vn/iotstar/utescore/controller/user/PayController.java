@@ -33,9 +33,9 @@ public class PayController {
 	@Autowired
 	private UserService userService;
 
-	@GetMapping("/details/{id}")
-	public String getYardDetails(@PathVariable int id, Model model) {
-		Thongtinsan yard = thongTinSanService.getThongTinSanById(id);
+	@GetMapping("/details/{fieldid}")
+	public String getYardDetails(@PathVariable int fieldid, Model model) {
+		Thongtinsan yard = thongTinSanService.getThongTinSanById(fieldid);
 		model.addAttribute("yard", yard);
 		return "user/yard-detail";
 	}
