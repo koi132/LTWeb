@@ -25,16 +25,26 @@ public class Thongtinsan {
     
     @Column(name = "Status", nullable = false, length = 50)
     private String status = "available";
+    
+    
+    @Column(name = "Address", length = 255)
+    private String address;
+
+    @Column(name = "Facilities", length = 500)
+    private String facilities;
+    
 
     // Constructors
     public Thongtinsan() {
     }
 
-    public Thongtinsan(String fieldName, String type, double price, String detail) {
+    public Thongtinsan(String fieldName, String type, double price, String detail, String address, String facilities) {
         this.fieldName = fieldName;
         this.type = type;
         this.price = price;
         this.detail = detail;
+        this.address = address;
+        this.facilities = facilities;
     }
 
     // Getters and Setters
@@ -76,9 +86,7 @@ public class Thongtinsan {
 
     public void setDetail(String detail) {
         this.detail = detail;
-    }
-    
-    
+    }        
 
     public String getStatus() {
 		return status;
@@ -86,13 +94,29 @@ public class Thongtinsan {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}		
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getFacilities() {
+		return facilities;
+	}
+
+	public void setFacilities(String facilities) {
+		this.facilities = facilities;
 	}
 
 	@Override
 	public String toString() {
 		return "Thongtinsan [fieldID=" + fieldID + ", fieldName=" + fieldName + ", type=" + type + ", price=" + price
-				+ ", detail=" + detail + ", status=" + status + "]";
+				+ ", detail=" + detail + ", status=" + status + ", address=" + address + ", facilities=" + facilities
+				+ "]";
 	}
-
 
 }

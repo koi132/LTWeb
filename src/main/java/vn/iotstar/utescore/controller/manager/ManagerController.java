@@ -1,30 +1,19 @@
 package vn.iotstar.utescore.controller.manager;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.el.stream.Optional;
-import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import vn.iotstar.utescore.entity.Booking;
 import vn.iotstar.utescore.entity.Payment;
-import vn.iotstar.utescore.entity.Thongtinsan;
 import vn.iotstar.utescore.repository.BookingRepository;
 import vn.iotstar.utescore.services.BookingService;
 import vn.iotstar.utescore.services.PaymentService;
@@ -149,17 +138,25 @@ public class ManagerController {
 		return "manager/search"; // Tên trang hiển thị kết quả tìm kiếm
 	}
 
+
 	@GetMapping("/manager/add")
 	public String showAddYardPage() {
 		return "manager/AddYard"; // Trả về file AddYard.html
-	}
 
-	@PostMapping("/manager/add1")
-	public String addThongTinSan(@RequestParam String fieldName, @RequestParam String type, @RequestParam Float price, @RequestParam String detail) {
-		thongTinSanService.addThongTinSan(fieldName, type, price, detail);
 
-		return "redirect:/manager";
-	}
+	
+	@PostMapping("/add1")
+	public String addThongTinSan(@RequestParam String fieldName, @RequestParam String type, @RequestParam double price, @RequestParam String detail, @RequestParam String address, @RequestParam String facilities) {
+	    // Thêm thông tin sân vào cơ sở dữ liệu
+
+	    thongTinSanService.addThongTinSan(fieldName, type, price, detail, address, facilities);
+
+	    
+	    // Chuyển hướng đến trang quản lý sân sau khi thêm
+	    return "redirect:/manager";  // Sử dụng redirect để chuyển hướng đến trang quản lý sân
+
+
+	
 
 	@GetMapping("/manager/bookings/delete/{bookingID}")
 	public ResponseEntity<String> deleteBooking(@PathVariable int bookingID) {
