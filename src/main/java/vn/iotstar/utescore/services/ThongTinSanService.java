@@ -9,23 +9,29 @@ import org.springframework.stereotype.Service;
 import vn.iotstar.utescore.entity.Thongtinsan;
 import vn.iotstar.utescore.repository.ThongTinSanRepository;
 
-
 @Service
 public class ThongTinSanService {
 	@Autowired
-    private ThongTinSanRepository thongTinSanRepository;
-	
+	private ThongTinSanRepository thongTinSanRepository;
+
 	public Thongtinsan addThongTinSan(String fieldName, String type, Float price, String detail) {
-	    Thongtinsan thongtinsan = new Thongtinsan(fieldName, type, price, detail);
-	    return thongTinSanRepository.save(thongtinsan);
+		Thongtinsan thongtinsan = new Thongtinsan(fieldName, type, price, detail);
+		return thongTinSanRepository.save(thongtinsan);
 	}
 
-    
-    public List<Thongtinsan> getAllFields() {
+	public List<Thongtinsan> getAllFields() {
 		return thongTinSanRepository.findAll();
 	}
 
 	public Optional<Thongtinsan> getFieldById(Integer id) {
 		return thongTinSanRepository.findById(id);
+	}
+
+	public Thongtinsan getThongTinSanById(int id) {
+		return thongTinSanRepository.findById(id).orElse(null);
+	}
+
+	public Thongtinsan updateThongTinSan(Thongtinsan thongtinsan) {
+		return thongTinSanRepository.save(thongtinsan);
 	}
 }
