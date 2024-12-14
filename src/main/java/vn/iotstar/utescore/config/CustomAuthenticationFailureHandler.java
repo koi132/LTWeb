@@ -20,6 +20,6 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 //        request.getSession().setAttribute("email", email);
         // Chuyển hướng lại trang đăng nhập với thông báo lỗi
         //response.sendRedirect("/login_page");
-        response.sendRedirect(request.getContextPath() + "/login_page?error=true");
+        response.sendRedirect(request.getContextPath() + "/login?error=true");
     }
 }

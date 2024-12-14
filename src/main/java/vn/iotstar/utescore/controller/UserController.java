@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/user/")
+@RequestMapping("/user")
 @SessionAttributes("likedArticles")
 public class UserController {
 
@@ -87,13 +87,17 @@ public class UserController {
 
 	@GetMapping("/")
 	public String home(Model model, HttpSession session, @RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "10") int size) {
+			@RequestParam(defaultValue = "10") int size, Principal principal) {
 		User currentUser = (User) session.getAttribute("currentUser");
+		if (principal != null) {
+			String email = principal.getName();
+			User user = userRepo.findByEmail(email);
+			model.addAttribute("user", user);
+		}
 		if (currentUser == null) {
 			return "redirect:/login";
 		}
         return "user/home";
-
 	}
 
 	@PostMapping("/updatePassword")

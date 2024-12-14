@@ -48,10 +48,14 @@
 						<i class="fas fa-user"></i>
 					</a>
 					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-						<li><a class="dropdown-item" href="#">Xin chào, User</a></li>
-						<li><a class="dropdown-item" href="/user/profilePage">Thông tin cá nhân</a></li>
-						<li><a class="dropdown-item" th:href="@{/user/changePass}">Đổi mật khẩu</a></li>
-						<li><a class="dropdown-item" th:href="@{/logout}">Đăng xuất</a></li>
+						<li><a class="dropdown-item" href="#">Xin chào</a></li>
+						<a class="dropdown-item" href="/user/profilePage">
+							<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+							Profile
+						</a>
+						<a class="collapse-item" href="/login">Login</a>
+						<a class="collapse-item" href="/register">Register</a>
+						<a class="collapse-item" href="/forgotPassword">Forgot Password</a>
 					</ul>
 				</div>
 			</div>
