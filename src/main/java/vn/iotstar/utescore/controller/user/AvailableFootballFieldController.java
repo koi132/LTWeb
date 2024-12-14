@@ -14,7 +14,7 @@ import vn.iotstar.utescore.services.ThongTinSanService;
 @Controller
 @RequestMapping("/")
 @CrossOrigin(origins = "*")
-public class UserController {
+public class AvailableFootballFieldController {
 	@Autowired
 	private ThongTinSanService thongTinSanService;
 
@@ -23,7 +23,7 @@ public class UserController {
 		return "user/home";
 	}
 
-	@GetMapping("/cacsan")
+	@RequestMapping("/cacsan")
 	public String loadCacSanSanCo() {
 		return "user/sanbong-list";
 	}
