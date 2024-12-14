@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import vn.iotstar.utescore.config.GlobalVariables;
 import vn.iotstar.utescore.entity.Booking;
 import vn.iotstar.utescore.entity.Payment;
 import vn.iotstar.utescore.entity.Thongtinsan;
@@ -42,20 +44,19 @@ public class PayController {
 
 	@PostMapping("/book")
 	public String bookYard(@RequestParam int yardId, @RequestParam String customerName, @RequestParam String phone,
-			@RequestParam String bookingDate, @RequestParam String startTime, @RequestParam String endTime,
-			@RequestParam int userId) {
+			@RequestParam String bookingDate, @RequestParam String startTime, @RequestParam String endTime) {
 		Thongtinsan yard = thongTinSanService.getThongTinSanById(yardId);
 		yard.setStatus("booked");
 		thongTinSanService.updateThongTinSan(yard);
 		Booking booking = new Booking(yard, customerName, phone, LocalDate.parse(bookingDate),
-				LocalTime.parse(startTime), LocalTime.parse(endTime), userId);
+				LocalTime.parse(startTime), LocalTime.parse(endTime), GlobalVariables.sharedVariable);
 		bookingService.addBooking(booking);
-		User user = userService.getUserById(userId);
+		User user = userService.getUserById(GlobalVariables.sharedVariable);
 		Payment payment = new Payment();
 		payment.setBooking(booking);
 		payment.setAmount(BigDecimal.valueOf(yard.getPrice()));
-		payment.setUserId(1);
+		payment.setUserId(GlobalVariables.sharedVariable);
 		paymentService.addPayment(payment);
-		return "redirect:/yard/details/" + yardId;
+		return "redirect:/user";
 	}
 }
