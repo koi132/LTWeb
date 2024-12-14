@@ -44,15 +44,12 @@ public class Booking {
     @Column(name = "userId", nullable = false)
     private int userId;
 
- // Các trường khác
-    @Column(name = "Total Payment", nullable = true)
-    private BigDecimal totalPayment;
-    
+ 
     // Constructors
     public Booking() {
     }
 
-    public Booking(Thongtinsan thongTinSan, String customerName, String phone, LocalDate bookingDate, LocalTime startTime, LocalTime endTime, int userId, BigDecimal totalPayment) {
+    public Booking(Thongtinsan thongTinSan, String customerName, String phone, LocalDate bookingDate, LocalTime startTime, LocalTime endTime, int userId) {
         this.thongTinSan = thongTinSan;
         this.customerName = customerName;
         this.phone = phone;
@@ -61,7 +58,7 @@ public class Booking {
         this.endTime = endTime;
         this.bookingCode = generateBookingCode();
         this.userId = userId;
-        this.totalPayment = totalPayment;
+       // this.totalPayment = totalPayment;
     }
 
 
@@ -155,22 +152,16 @@ public class Booking {
         return UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }
 
- // Getters và Setters
-    public BigDecimal getTotalPayment() {
-        return totalPayment;
-    }
-
-    public void setTotalPayment(BigDecimal totalPayment) {
-        this.totalPayment = totalPayment;
-    }
-
 	@Override
 	public String toString() {
 		return "Booking [bookingID=" + bookingID + ", thongTinSan=" + thongTinSan + ", customerName=" + customerName
 				+ ", phone=" + phone + ", bookingDate=" + bookingDate + ", startTime=" + startTime + ", endTime="
-				+ endTime + ", bookingCode=" + bookingCode + ", status=" + status + ", userId=" + userId
-				+ ", totalPayment=" + totalPayment + "]";
+				+ endTime + ", bookingCode=" + bookingCode + ", status=" + status + ", userId=" + userId + "]";
 	}
+
+ 
+
+	
     
     
 }

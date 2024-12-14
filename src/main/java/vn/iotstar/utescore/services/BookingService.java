@@ -83,22 +83,22 @@ public class BookingService {
 		return bookingRepository.save(booking);
 	}
 	
-	public BigDecimal getMonthlyRevenue(int month, int year) {
-        return bookingRepository.calculateMonthlyRevenue(month, year);
-    }
-
-    public BigDecimal getAnnualRevenue(int year) {
-        return bookingRepository.calculateAnnualRevenue(year);
-    }
-    public List<BigDecimal> getMonthlyRevenues(int year) {
-        List<BigDecimal> monthlyRevenues = new ArrayList<>();
-        for (int month = 1; month <= 12; month++) {
-            // Tính doanh thu cho mỗi tháng
-            BigDecimal monthlyRevenue = bookingRepository.calculateMonthlyRevenue(month, year);
-            monthlyRevenues.add(monthlyRevenue != null ? monthlyRevenue : BigDecimal.ZERO);  // Nếu không có doanh thu thì thêm giá trị 0
-        }
-        return monthlyRevenues;
-    }
+//	public BigDecimal getMonthlyRevenue(int month, int year) {
+//        return bookingRepository.calculateMonthlyRevenue(month, year);
+//    }
+//
+//    public BigDecimal getAnnualRevenue(int year) {
+//        return bookingRepository.calculateAnnualRevenue(year);
+//    }
+//    public List<BigDecimal> getMonthlyRevenues(int year) {
+//        List<BigDecimal> monthlyRevenues = new ArrayList<>();
+//        for (int month = 1; month <= 12; month++) {
+//            // Tính doanh thu cho mỗi tháng
+//            BigDecimal monthlyRevenue = bookingRepository.calculateMonthlyRevenue(month, year);
+//            monthlyRevenues.add(monthlyRevenue != null ? monthlyRevenue : BigDecimal.ZERO);  // Nếu không có doanh thu thì thêm giá trị 0
+//        }
+//        return monthlyRevenues;
+//    }
 
    
 }
