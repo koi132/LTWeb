@@ -24,7 +24,7 @@ public class Thongtinsan {
     private String detail; 
     
     @Column(name = "Status", nullable = false, length = 50)
-    private String status = "available";
+    private String status = "Còn sân";
     
     
     @Column(name = "Address", length = 255)
@@ -38,7 +38,8 @@ public class Thongtinsan {
     public Thongtinsan() {
     }
 
-    public Thongtinsan(String fieldName, String type, double price, String detail, String address, String facilities) {
+    public Thongtinsan(int fieldid, String fieldName, String type, double price, String detail, String address, String facilities) {
+    	this.fieldID = fieldid;
         this.fieldName = fieldName;
         this.type = type;
         this.price = price;
