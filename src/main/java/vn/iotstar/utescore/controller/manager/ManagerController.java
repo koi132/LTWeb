@@ -178,6 +178,28 @@ public class ManagerController {
 	    }
 	}
 	
+	@PostMapping("/updateStatus")
+    public ResponseEntity<Map<String, Object>> updateBookingStatus(
+            @RequestParam("bookingID") int bookingID,
+            @RequestParam("bookingCode") String bookingCode) {
+
+        // Gọi phương thức từ service để cập nhật trạng thái booking
+        Booking updatedBooking = bookingService.updateBookingStatus(bookingID, bookingCode);
+
+        // Tạo một đối tượng phản hồi với thông tin về trạng thái
+        Map<String, Object> response = new HashMap<>();
+        
+        if (updatedBooking != null) {
+            response.put("success", true);
+            response.put("message", "Cập nhật trạng thái thành công!");
+        } else {
+            response.put("success", false);
+            response.put("message", "Mã đặt sân không hợp lệ hoặc không tồn tại.");
+        }
+
+        // Trả về phản hồi với thông báo cho client
+        return ResponseEntity.ok(response);
+    }
 	
 	
 	@Autowired
@@ -202,4 +224,6 @@ public class ManagerController {
     public String doanhthu() {
         return "manager/doanhthu";  
     }
+	
+	
 }
