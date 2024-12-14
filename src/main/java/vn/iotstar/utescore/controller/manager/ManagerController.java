@@ -1,5 +1,7 @@
 package vn.iotstar.utescore.controller.manager;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -221,9 +223,37 @@ public class ManagerController {
 	}
 
 	@GetMapping("/doanhthu")
-    public String doanhthu() {
-        return "manager/doanhthu";  
-    }
-	
+	public String doanhthu(@RequestParam(defaultValue = "0") int month, 
+	                       @RequestParam(defaultValue = "0") int year, Model model) {
+	    if (month == 0) {
+	        month = java.time.LocalDate.now().getMonthValue(); // Lấy tháng hiện tại nếu không có tham số tháng
+	    }
+	    if (year == 0) {
+	        year = java.time.LocalDate.now().getYear(); // Lấy năm hiện tại nếu không có tham số năm
+	    }
+
+	    // Lấy doanh thu hàng tháng và hàng năm
+	    BigDecimal monthlyRevenue = bookingService.getMonthlyRevenue(month, year);
+	    BigDecimal annualRevenue = bookingService.getAnnualRevenue(year);
+
+	    // Lấy danh sách doanh thu hàng tháng cho biểu đồ
+	    java.util.List<BigDecimal> monthlyRevenuesList = bookingService.getMonthlyRevenues(year);
+	    
+	    // Định dạng giá trị doanh thu với dấu phân cách hàng nghìn và thêm "đồng"
+	    DecimalFormat df = new DecimalFormat("#,###");
+	    String formattedMonthlyRevenue = df.format(monthlyRevenue) + " đồng";
+	    String formattedAnnualRevenue = df.format(annualRevenue) + " đồng";
+
+	    System.out.println("Monthly Revenue: " + monthlyRevenue);
+	    System.out.println("Annual Revenue: " + annualRevenue);
+	    System.out.println("Monthly Revenues List: " + monthlyRevenuesList);
+
+	    
+	    // Đưa dữ liệu vào model
+	    model.addAttribute("monthlyRevenue", formattedMonthlyRevenue);
+	    model.addAttribute("annualRevenue", formattedAnnualRevenue);
+
+	    return "manager/doanhthu";  // Trả về view
+	}
 	
 }

@@ -1,7 +1,8 @@
 package vn.iotstar.utescore.services;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -81,4 +82,22 @@ public class BookingService {
 	public Booking addBooking(Booking booking) {
 		return bookingRepository.save(booking);
 	}
+	
+	public BigDecimal getMonthlyRevenue(int month, int year) {
+        return bookingRepository.calculateMonthlyRevenue(month, year);
+    }
+
+    public BigDecimal getAnnualRevenue(int year) {
+        return bookingRepository.calculateAnnualRevenue(year);
+    }
+    
+    public List<BigDecimal> getMonthlyRevenues(int year) {
+        // Kiểm tra dữ liệu từ cơ sở dữ liệu và trả về danh sách doanh thu hàng tháng
+        List<BigDecimal> revenues = new ArrayList<>();
+        for (int i = 1; i <= 12; i++) {
+            // Giả lập lấy doanh thu của từng tháng
+            revenues.add(BigDecimal.valueOf(i * 10000)); // Giá trị giả lập, thay đổi theo thực tế
+        }
+        return revenues;
+    }
 }
