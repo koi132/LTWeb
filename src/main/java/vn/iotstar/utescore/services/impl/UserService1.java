@@ -22,10 +22,9 @@ import vn.iotstar.utescore.services.JwtService;
 
 import java.security.SecureRandom;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class UserService implements IUserService {
+public class UserService1 implements IUserService {
 	@Autowired
 	private JwtService jwtService;
 
