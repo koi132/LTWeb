@@ -4,6 +4,11 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +19,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import vn.iotstar.utescore.entity.Booking;
 import vn.iotstar.utescore.entity.Payment;
 import vn.iotstar.utescore.repository.BookingRepository;
@@ -227,9 +236,7 @@ public class ManagerController {
 	    BigDecimal monthlyRevenue = bookingService.getMonthlyRevenue(month, year);
 	    BigDecimal annualRevenue = bookingService.getAnnualRevenue(year);
 
-	    // Lấy danh sách doanh thu hàng tháng cho biểu đồ
-	    java.util.List<BigDecimal> monthlyRevenuesList = bookingService.getMonthlyRevenues(year);
-	    
+	   
 	    // Định dạng giá trị doanh thu với dấu phân cách hàng nghìn và thêm "đồng"
 	    DecimalFormat df = new DecimalFormat("#,###");
 	    String formattedMonthlyRevenue = df.format(monthlyRevenue) + " đồng";
@@ -237,9 +244,27 @@ public class ManagerController {
 
 	    System.out.println("Monthly Revenue: " + monthlyRevenue);
 	    System.out.println("Annual Revenue: " + annualRevenue);
-	    System.out.println("Monthly Revenues List: " + monthlyRevenuesList);
+	   
+	 // Lấy doanh thu hàng tháng
+	    List<BigDecimal> monthlyRevenues = bookingService.getMonthlyRevenues(year);
 
-	    
+	    // In ra dữ liệu doanh thu hàng tháng vào console
+	    System.out.println("Monthly Revenues for year " + year + ":");
+	    for (BigDecimal revenue : monthlyRevenues) {
+	        System.out.println(revenue);  // In ra từng giá trị doanh thu trong danh sách
+	    }
+
+	    // Chuyển đổi danh sách doanh thu thành chuỗi JSON
+	    ObjectMapper objectMapper = new ObjectMapper();
+	    String monthlyRevenuesJson = null;
+	    try {
+	        monthlyRevenuesJson = objectMapper.writeValueAsString(monthlyRevenues);
+	    } catch (JsonProcessingException e) {
+	        e.printStackTrace();
+	    }
+
+	    // Đưa chuỗi JSON vào model
+	    model.addAttribute("monthlyRevenuesJson", monthlyRevenuesJson);
 	    // Đưa dữ liệu vào model
 	    model.addAttribute("monthlyRevenue", formattedMonthlyRevenue);
 	    model.addAttribute("annualRevenue", formattedAnnualRevenue);

@@ -90,14 +90,15 @@ public class BookingService {
     public BigDecimal getAnnualRevenue(int year) {
         return bookingRepository.calculateAnnualRevenue(year);
     }
-    
     public List<BigDecimal> getMonthlyRevenues(int year) {
-        // Kiểm tra dữ liệu từ cơ sở dữ liệu và trả về danh sách doanh thu hàng tháng
-        List<BigDecimal> revenues = new ArrayList<>();
-        for (int i = 1; i <= 12; i++) {
-            // Giả lập lấy doanh thu của từng tháng
-            revenues.add(BigDecimal.valueOf(i * 10000)); // Giá trị giả lập, thay đổi theo thực tế
+        List<BigDecimal> monthlyRevenues = new ArrayList<>();
+        for (int month = 1; month <= 12; month++) {
+            // Tính doanh thu cho mỗi tháng
+            BigDecimal monthlyRevenue = bookingRepository.calculateMonthlyRevenue(month, year);
+            monthlyRevenues.add(monthlyRevenue != null ? monthlyRevenue : BigDecimal.ZERO);  // Nếu không có doanh thu thì thêm giá trị 0
         }
-        return revenues;
+        return monthlyRevenues;
     }
+
+   
 }

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Doanh Thu</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Thư viện Chart.js -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #chart-container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Biểu Đồ Doanh Thu</h1>
+
+    <!-- Hiển thị doanh thu hàng tháng và hàng năm -->
+    <div class="card border-left-primary shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        Earnings (Monthly)</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                         <span th:text="${monthlyRevenue}">0 đồng</span>
+
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-success shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                        Earnings (Annual)</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        <span th:text="${annualRevenue}">0 đồng</span>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <div th:fragment="chartFragment">
+        <div id="chart-container">
+            <canvas id="revenueChart"></canvas>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+    const monthlyRevenuesList = [1000000, 2000000, 3000000, 1500000, 5000000, 4000000, 2000000, 0, 0, 0, 0, 0];
+
+    console.log("Monthly Revenues List:", monthlyRevenuesList);
+    /*]]>*/
+</script>
+
+
+    <!-- Vẽ biểu đồ với Chart.js -->
+    <script>
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line', // Loại biểu đồ: Đường (line)
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], // Tháng
+                datasets: [{
+                    label: 'Doanh thu từng tháng (đồng)',
+                    data: monthlyRevenuesList, // Dữ liệu doanh thu hàng tháng
+                    borderColor: 'rgba(75, 192, 192, 1)', // Màu đường
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Màu nền phía dưới đường
+                    borderWidth: 2, // Độ dày đường
+                    fill: true, // Tô màu dưới đường
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true, // Bắt đầu từ 0
+                        title: {
+                            display: true,
+                            text: 'Doanh thu (đồng)',
+                        },
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Tháng',
+                        },
+                    },
+                },
+                plugins: {
+                    legend: {
+                        display: true, // Hiển thị chú thích
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                // Thêm định dạng tiền tệ vào tooltip
+                                const value = tooltipItem.raw || 0;
+                                return value.toLocaleString() + ' đồng';
+                            },
+                        },
+                    },
+                },
+            },
+        });
+    </script>
+</body>
+</html>
