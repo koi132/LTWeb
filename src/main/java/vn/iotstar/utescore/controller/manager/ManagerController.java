@@ -94,11 +94,7 @@ public class ManagerController {
 		model.addAttribute("Datebookings", Datebookings);
 		model.addAttribute("selectedDate", selectedDate);
 
-
-		
 		return "manager/qlsb"; // Trang hiển thị
-
-
 
 	}
 
@@ -153,53 +149,49 @@ public class ManagerController {
 		return "manager/search"; // Tên trang hiển thị kết quả tìm kiếm
 	}
 
-
-	@GetMapping("/add")
-    public String showAddYardPage() {
-        return "manager/AddYard";  // Trả về file AddYard.html
-    }
-	@PostMapping("/add1")
-	public String addThongTinSan(@RequestParam String fieldName, @RequestParam String type) {
-	    // Thêm thông tin sân vào cơ sở dữ liệu
-	    //thongTinSanService.addThongTinSan(fieldName, type);
-	    
-	    // Chuyển hướng đến trang quản lý sân sau khi thêm
-	    return "redirect:/manager";  // Sử dụng redirect để chuyển hướng đến trang quản lý sân
+	@GetMapping("/manager/add")
+	public String showAddYardPage() {
+		return "manager/AddYard"; // Trả về file AddYard.html
 	}
-	
+
+	@PostMapping("/manager/add1")
+	public String addThongTinSan(@RequestParam String fieldName, @RequestParam String type, @RequestParam Float price, @RequestParam String detail) {
+		thongTinSanService.addThongTinSan(fieldName, type, price, detail);
+
+		return "redirect:/manager";
+	}
+
 	@GetMapping("/manager/bookings/delete/{bookingID}")
 	public ResponseEntity<String> deleteBooking(@PathVariable int bookingID) {
-	    try {
-	        bookingService.deleteBooking(bookingID);  // Gọi phương thức delete từ service
-	        return ResponseEntity.ok("Xóa lịch đặt sân thành công!");
-	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                .body("Không thể xóa lịch đặt sân. Vui lòng thử lại.");
-	    }
+		try {
+			bookingService.deleteBooking(bookingID); 
+			return ResponseEntity.ok("Xóa lịch đặt sân thành công!");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Không thể xóa lịch đặt sân. Vui lòng thử lại.");
+		}
 	}
-	
-	
-	
+
 	@Autowired
 	private PaymentService paymentService;
-	
+
 	@GetMapping("/historyPay")
 	public String getAllPayments(Model model) {
-	    // Lấy tất cả thanh toán từ service
-	    java.util.List<Payment> payments = paymentService.getAllPayments();
-	    
-	 // In dữ liệu vào console
-	    System.out.println("Payments fetched: " + payments);
-	    
-	    // Thêm dữ liệu vào model
-	    model.addAttribute("payments", payments);  // Dữ liệu sẽ được sử dụng trong view
-	    
-	    // Trả về tên view (JSP hoặc HTML)
-	    return "manager/HistoryPay";  // Đây là tên file JSP sẽ được Spring tìm kiếm và trả về
+		// Lấy tất cả thanh toán từ service
+		java.util.List<Payment> payments = paymentService.getAllPayments();
+
+		// In dữ liệu vào console
+		System.out.println("Payments fetched: " + payments);
+
+		// Thêm dữ liệu vào model
+		model.addAttribute("payments", payments); // Dữ liệu sẽ được sử dụng trong view
+
+		// Trả về tên view (JSP hoặc HTML)
+		return "manager/HistoryPay"; // Đây là tên file JSP sẽ được Spring tìm kiếm và trả về
 	}
 
 	@GetMapping("/doanhthu")
-    public String doanhthu() {
-        return "manager/doanhthu";  
-    }
+	public String doanhthu() {
+		return "manager/doanhthu";
+	}
 }

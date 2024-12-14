@@ -24,7 +24,7 @@ public class Thongtinsan {
     private String detail; 
     
     @Column(name = "Status", nullable = false, length = 50)
-    private String status;
+    private String status = "available";
 
     // Constructors
     public Thongtinsan() {
