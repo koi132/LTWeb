@@ -138,30 +138,26 @@ public class ManagerController {
 		return "manager/search"; // Tên trang hiển thị kết quả tìm kiếm
 	}
 
-
 	@GetMapping("/manager/add")
 	public String showAddYardPage() {
 		return "manager/AddYard"; // Trả về file AddYard.html
+	}
 
-
-	
 	@PostMapping("/add1")
-	public String addThongTinSan(@RequestParam String fieldName, @RequestParam String type, @RequestParam double price, @RequestParam String detail, @RequestParam String address, @RequestParam String facilities) {
-	    // Thêm thông tin sân vào cơ sở dữ liệu
+	public String addThongTinSan(@RequestParam String fieldName, @RequestParam String type, @RequestParam double price,
+			@RequestParam String detail, @RequestParam String address, @RequestParam String facilities) {
+		// Thêm thông tin sân vào cơ sở dữ liệu
 
-	    thongTinSanService.addThongTinSan(fieldName, type, price, detail, address, facilities);
+		thongTinSanService.addThongTinSan(fieldName, type, price, detail, address, facilities);
 
-	    
-	    // Chuyển hướng đến trang quản lý sân sau khi thêm
-	    return "redirect:/manager";  // Sử dụng redirect để chuyển hướng đến trang quản lý sân
-
-
-	
+		// Chuyển hướng đến trang quản lý sân sau khi thêm
+		return "redirect:/manager"; // Sử dụng redirect để chuyển hướng đến trang quản lý sân
+	}
 
 	@GetMapping("/manager/bookings/delete/{bookingID}")
 	public ResponseEntity<String> deleteBooking(@PathVariable int bookingID) {
 		try {
-			bookingService.deleteBooking(bookingID); 
+			bookingService.deleteBooking(bookingID);
 			return ResponseEntity.ok("Xóa lịch đặt sân thành công!");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
