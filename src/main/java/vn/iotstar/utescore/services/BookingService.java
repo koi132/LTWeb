@@ -1,6 +1,7 @@
 package vn.iotstar.utescore.services;
 
 import java.time.LocalDate;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +20,6 @@ public class BookingService {
 	public List<Booking> getAllBookings() {
 		return bookingRepository.findAll();
 	}
-
 
 	public List<Booking> getBookingsByUserId(int userId) {
 		return bookingRepository.findByUserId(userId);
@@ -65,15 +65,20 @@ public class BookingService {
 		}
 		return null; // Nếu không tìm thấy hoặc bookingCode không đúng
 	}
-    
-    public void deleteBooking(int bookingID) {
-        bookingRepository.deleteById(bookingID); // Sử dụng trực tiếp phương thức deleteById
-    }
-    public Optional<Booking> findBookingById(int bookingID) {
-        return bookingRepository.findById(bookingID);
-    }
 
-    public void updateBooking(Booking booking) {
-        bookingRepository.save(booking); // Cập nhật booking vào cơ sở dữ liệu
-    }
+	public void deleteBooking(int bookingID) {
+		bookingRepository.deleteById(bookingID); // Sử dụng trực tiếp phương thức deleteById
+	}
+
+	public Optional<Booking> findBookingById(int bookingID) {
+		return bookingRepository.findById(bookingID);
+	}
+
+	public void updateBooking(Booking booking) {
+		bookingRepository.save(booking); // Cập nhật booking vào cơ sở dữ liệu
+	}
+
+	public Booking addBooking(Booking booking) {
+		return bookingRepository.save(booking);
+	}
 }

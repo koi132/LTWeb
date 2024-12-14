@@ -34,6 +34,8 @@ public class PaymentService {
 		return paymentRepository.findByUser(user);
 	}
 
+	public Payment addPayment(Payment payment) {
+		return paymentRepository.save(payment);
+	}
 
-	
 }
