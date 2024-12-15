@@ -2,26 +2,82 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Chỉnh sửa người dùng</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        button {
+            width: 100%;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Chỉnh sửa thông tin người dùng</h1>
-    <form th:action="@{/admin/updateuser/{id}(id=${user.userId})}" th:object="${user}" method="post">
-        <label>Email:</label>
-        <input type="email" th:field="*{email}" required />
-        <br />
-        <label>Phone:</label>
-        <input type="text" th:field="*{phone}" required />
-        <br />
-        <label>Họ tên:</label>
-        <input type="text" th:field="*{fullName}" required />
-        <br />
-        <label>Vai trò:</label>
-        <select th:field="*{role}">
-            <option value="USER">Người dùng</option>
-            <option value="ADMIN">Quản trị viên</option>
-        </select>
-        <br />
-        <button type="submit">Cập nhật</button>
-    </form>
+    <div class="container">
+        <h1>Chỉnh sửa thông tin người dùng</h1>
+        <form th:action="@{/admin/updateuser/{id}(id=${user.userId})}" th:object="${user}" method="post">
+            <label for="email">Email:</label>
+            <input type="email" id="email" th:field="*{email}" placeholder="Nhập email" required />
+
+            <label for="phone">Số điện thoại:</label>
+            <input type="text" id="phone" th:field="*{phone}" placeholder="Nhập số điện thoại" required />
+
+            <label for="fullName">Họ tên:</label>
+            <input type="text" id="fullName" th:field="*{fullName}" placeholder="Nhập họ tên" required />
+
+            <label for="role">Vai trò:</label>
+            <select id="role" th:field="*{role}">
+                <option value="USER">Người dùng</option>
+                <option value="ADMIN">Quản trị viên</option>
+            </select>
+
+            <button type="submit">Cập nhật</button>
+        </form>
+    </div>
 </body>
 </html>
