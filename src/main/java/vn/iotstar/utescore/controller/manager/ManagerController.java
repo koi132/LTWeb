@@ -59,7 +59,7 @@ public class ManagerController {
 		java.util.List<Booking> bookings = bookingRepository.findBookingsForCurrentTime(currentDate, currentTime);
 
 		// Mảng để lưu trạng thái của 5 sân
-		Booking[] fields = new Booking[5];
+		Booking[] fields = new Booking[20];
 
 		// Lặp qua các booking và gán chúng vào các sân tương ứng
 		for (Booking booking : bookings) {
