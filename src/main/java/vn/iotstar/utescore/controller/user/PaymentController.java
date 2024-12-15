@@ -2,9 +2,11 @@ package vn.iotstar.utescore.controller.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.stereotype.Controller; 
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import vn.iotstar.utescore.config.GlobalVariables;
 import vn.iotstar.utescore.entity.Payment;
 import vn.iotstar.utescore.entity.User;
 import vn.iotstar.utescore.services.PaymentService;
@@ -60,4 +62,12 @@ public class PaymentController {
 		model.addAttribute("payments", payments);
 		return "user/payment-list";
 	}
+
+	@GetMapping("/dashboard")
+	public String getUserDashboard(Model model) {
+		int sharedVariable = GlobalVariables.sharedVariable; // Lấy giá trị từ GlobalVariables
+		model.addAttribute("sharedVariable", sharedVariable);
+		return "user/dashboard";
+	}
+
 }

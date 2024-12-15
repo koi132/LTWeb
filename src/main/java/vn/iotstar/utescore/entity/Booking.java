@@ -2,6 +2,7 @@ package vn.iotstar.utescore.entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
@@ -43,6 +44,7 @@ public class Booking {
     @Column(name = "userId", nullable = false)
     private int userId;
 
+ 
     // Constructors
     public Booking() {
     }
@@ -56,7 +58,9 @@ public class Booking {
         this.endTime = endTime;
         this.bookingCode = generateBookingCode();
         this.userId = userId;
+       // this.totalPayment = totalPayment;
     }
+
 
     // Getters and Setters
     public int getBookingID() {
@@ -148,10 +152,16 @@ public class Booking {
         return UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }
 
-    @Override
-    public String toString() {
-        return "Booking [bookingID=" + bookingID + ", thongTinSan=" + thongTinSan + ", customerName=" + customerName
-                + ", phone=" + phone + ", bookingDate=" + bookingDate + ", startTime=" + startTime + ", endTime="
-                + endTime + ", bookingCode=" + bookingCode + ", status=" + status + ", userId=" + userId + "]";
-    }
+	@Override
+	public String toString() {
+		return "Booking [bookingID=" + bookingID + ", thongTinSan=" + thongTinSan + ", customerName=" + customerName
+				+ ", phone=" + phone + ", bookingDate=" + bookingDate + ", startTime=" + startTime + ", endTime="
+				+ endTime + ", bookingCode=" + bookingCode + ", status=" + status + ", userId=" + userId + "]";
+	}
+
+ 
+
+	
+    
+    
 }

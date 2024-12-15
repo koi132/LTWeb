@@ -1,5 +1,6 @@
 package vn.iotstar.utescore.repository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import java.time.LocalDateTime;
@@ -46,5 +47,9 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
  // Tìm kiếm Booking theo tên khách hàng hoặc số điện thoại
     
     
-    
+	 //@Query("SELECT SUM(b.totalPayment) FROM Booking b WHERE MONTH(b.bookingDate) = :month AND YEAR(b.bookingDate) = :year")
+	    //BigDecimal calculateMonthlyRevenue(int month, int year);
+
+	   // @Query("SELECT SUM(b.totalPayment) FROM Booking b WHERE YEAR(b.bookingDate) = :year")
+	   // BigDecimal calculateAnnualRevenue(int year);
 }

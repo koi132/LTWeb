@@ -1,7 +1,14 @@
 package vn.iotstar.utescore.controller.manager;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +19,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import vn.iotstar.utescore.entity.Booking;
 import vn.iotstar.utescore.entity.Payment;
 import vn.iotstar.utescore.repository.BookingRepository;
@@ -143,15 +154,11 @@ public class ManagerController {
 		return "manager/AddYard"; // Trả về file AddYard.html
 	}
 
-	@PostMapping("/add1")
-	public String addThongTinSan(@RequestParam int fieldID, @RequestParam String fieldName, @RequestParam String type, @RequestParam double price,
+	@PostMapping("/manager/add1")
+	public String addThongTinSan(@RequestParam String fieldName, @RequestParam String type, @RequestParam double price,
 			@RequestParam String detail, @RequestParam String address, @RequestParam String facilities) {
-		// Thêm thông tin sân vào cơ sở dữ liệu
-
-		thongTinSanService.addThongTinSan(fieldID, fieldName, type, price, detail, address, facilities);
-
-		// Chuyển hướng đến trang quản lý sân sau khi thêm
-		return "redirect:/manager"; // Sử dụng redirect để chuyển hướng đến trang quản lý sân
+		thongTinSanService.addThongTinSan(fieldName, type, price, detail, address, facilities);
+		return "redirect:/manager";
 	}
 
 	@GetMapping("/manager/bookings/delete/{bookingID}")
@@ -164,6 +171,34 @@ public class ManagerController {
 					.body("Không thể xóa lịch đặt sân. Vui lòng thử lại.");
 		}
 	}
+
+	
+	@PostMapping("/updateStatus")
+    public ResponseEntity<Map<String, Object>> updateBookingStatus(
+            @RequestParam("bookingID") int bookingID,
+            @RequestParam("bookingCode") String bookingCode) {
+
+        // Gọi phương thức từ service để cập nhật trạng thái booking
+        Booking updatedBooking = bookingService.updateBookingStatus(bookingID, bookingCode);
+
+        // Tạo một đối tượng phản hồi với thông tin về trạng thái
+        Map<String, Object> response = new HashMap<>();
+        
+        if (updatedBooking != null) {
+            response.put("success", true);
+            response.put("message", "Cập nhật trạng thái thành công!");
+        } else {
+            response.put("success", false);
+            response.put("message", "Mã đặt sân không hợp lệ hoặc không tồn tại.");
+        }
+
+        // Trả về phản hồi với thông báo cho client
+        return ResponseEntity.ok(response);
+    }
+	
+	
+
+
 
 	@Autowired
 	private PaymentService paymentService;
@@ -183,8 +218,54 @@ public class ManagerController {
 		return "manager/HistoryPay"; // Đây là tên file JSP sẽ được Spring tìm kiếm và trả về
 	}
 
-	@GetMapping("/doanhthu")
-	public String doanhthu() {
-		return "manager/doanhthu";
-	}
+//	@GetMapping("/doanhthu")
+//	public String doanhthu(@RequestParam(defaultValue = "0") int month, 
+//	                       @RequestParam(defaultValue = "0") int year, Model model) {
+//	    if (month == 0) {
+//	        month = java.time.LocalDate.now().getMonthValue(); // Lấy tháng hiện tại nếu không có tham số tháng
+//	    }
+//	    if (year == 0) {
+//	        year = java.time.LocalDate.now().getYear(); // Lấy năm hiện tại nếu không có tham số năm
+//	    }
+
+	    // Lấy doanh thu hàng tháng và hàng năm
+	    //BigDecimal monthlyRevenue = bookingService.getMonthlyRevenue(month, year);
+	   // BigDecimal annualRevenue = bookingService.getAnnualRevenue(year);
+
+	   
+	    // Định dạng giá trị doanh thu với dấu phân cách hàng nghìn và thêm "đồng"
+	    DecimalFormat df = new DecimalFormat("#,###");
+	   // String formattedMonthlyRevenue = df.format(monthlyRevenue) + " đồng";
+	    //String formattedAnnualRevenue = df.format(annualRevenue) + " đồng";
+
+//	    System.out.println("Monthly Revenue: " + monthlyRevenue);
+//	    System.out.println("Annual Revenue: " + annualRevenue);
+//	   
+	 // Lấy doanh thu hàng tháng
+	   // List<BigDecimal> monthlyRevenues = bookingService.getMonthlyRevenues(year);
+
+	    // In ra dữ liệu doanh thu hàng tháng vào console
+//	    System.out.println("Monthly Revenues for year " + year + ":");
+//	    for (BigDecimal revenue : monthlyRevenues) {
+//	        System.out.println(revenue);  // In ra từng giá trị doanh thu trong danh sách
+//	    }
+
+//	    // Chuyển đổi danh sách doanh thu thành chuỗi JSON
+//	    ObjectMapper objectMapper = new ObjectMapper();
+//	    String monthlyRevenuesJson = null;
+//	    try {
+//	        monthlyRevenuesJson = objectMapper.writeValueAsString(monthlyRevenues);
+//	    } catch (JsonProcessingException e) {
+//	        e.printStackTrace();
+//	    }
+//
+//	    // Đưa chuỗi JSON vào model
+//	    model.addAttribute("monthlyRevenuesJson", monthlyRevenuesJson);
+//	    // Đưa dữ liệu vào model
+//	    model.addAttribute("monthlyRevenue", formattedMonthlyRevenue);
+//	    model.addAttribute("annualRevenue", formattedAnnualRevenue);
+//
+//	    return "manager/doanhthu";  // Trả về view
+//	}	
+
 }
