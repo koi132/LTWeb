@@ -22,9 +22,8 @@ public class AvailableFootballFieldController {
 	private ThongTinSanService thongTinSanService;
 
 	@RequestMapping("/user")
-	public String dangNhap(Model model) {
-		int sharedVariable = GlobalVariables.sharedVariable;
-		model.addAttribute("sharedVariable", sharedVariable);
+	public String dangNhap() {
+
 		return "user/home";
 	}
 
