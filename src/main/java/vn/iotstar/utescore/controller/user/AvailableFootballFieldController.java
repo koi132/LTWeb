@@ -20,10 +20,10 @@ public class AvailableFootballFieldController {
 
 	@RequestMapping("/user")
 	public String dangNhap() {
-		return "user/home";
+		return "user/sanbong-list";
 	}
 
-//	@GetMapping("/user/cacsan")
+//	@GetMapping("/cacsan")
 //	public String loadCacSanSanCo() {
 //		return "user/sanbong-list";
 //	}
