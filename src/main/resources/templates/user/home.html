@@ -1,150 +1,165 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Danh Sách Sân Bóng</title>
-<link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
-	type="text/css">
-<link
-	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-	rel="stylesheet">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Danh Sách Sân Bóng</title>
+	<link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+	<link
+		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+		rel="stylesheet">
 
-<!-- Custom styles for this template-->
-<link href="/css/sb-admin-2.min.css" rel="stylesheet">
+	<!-- Custom styles for this template-->
+	<link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
-<script src="https://cdn.tailwindcss.com"></script>
-<link
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-	rel="stylesheet">
+	<script src="https://cdn.tailwindcss.com"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
-<style>
-.modal {
-	display: none;
-	position: fixed;
-	z-index: 1000;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.4);
-}
+	<!-- Bootstrap CSS -->
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
-.modal-content {
-	background-color: #fefefe;
-	margin: 10% auto;
-	padding: 20px;
-	border-radius: 10px;
-	max-width: 500px;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+	<!-- jQuery and Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-body {
-	font-family: Arial, sans-serif;
-	margin: 0;
-	padding: 0;
-	background-color: #f4f4f4;
-}
+	<style>
+		.modal-backdrop {
+			z-index: 1040 !important;
+			/* Đảm bảo lớp nền không che modal */
+		}
 
-.container {
-	max-width: 1200px;
-	margin: 0 auto;
-	padding: 20px;
-}
+		body.modal-open .modal {
+			z-index: 1050 !important;
+			/* Modal nằm trên lớp nền */
+		}
 
-.search-bar {
-	display: flex;
-	margin-bottom: 20px;
-}
+		.modal {
+			display: none;
+			position: fixed;
+			z-index: 1000;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+			background-color: rgba(0, 0, 0, 0.4);
+		}
 
-.search-bar input {
-	flex-grow: 1;
-	padding: 10px;
-	font-size: 16px;
-}
+		.modal-content {
+			background-color: #fefefe;
+			margin: 10% auto;
+			padding: 20px;
+			border-radius: 10px;
+			max-width: 500px;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		}
 
-.san-bong-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-	gap: 20px;
-}
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+			background-color: #f4f4f4;
+		}
 
-.san-bong-card {
-	background-color: #EBF0FF;
-	border-radius: 8px;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	overflow: hidden;
-	transition: transform 0.3s;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
-	justify-content: center;
-}
+		.container {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 20px;
+		}
 
-.san-bong-card:hover {
-	transform: scale(1.05);
-}
+		.search-bar {
+			display: flex;
+			margin-bottom: 20px;
+		}
 
-.san-bong-card img {
-	width: 100%;
-	height: 250px;
-	object-fit: cover;
-}
+		.search-bar input {
+			flex-grow: 1;
+			padding: 10px;
+			font-size: 16px;
+		}
 
-.san-bong-info {
-	padding: 15px;
-}
+		.san-bong-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+			gap: 20px;
+		}
 
-.san-bong-info h3 {
-	margin: 0 0 10px 0;
-	color: #333;
-}
+		.san-bong-card {
+			background-color: #EBF0FF;
+			border-radius: 8px;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			overflow: hidden;
+			transition: transform 0.3s;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			justify-content: center;
+		}
 
-.san-bong-info p {
-	margin: 5px 0;
-	color: #666;
-}
+		.san-bong-card:hover {
+			transform: scale(1.05);
+		}
 
-/* New color classes */
-.price-color {
-	color: #2ecc71; /* Xanh lá cây */
-	font-weight: bold;
-}
+		.san-bong-card img {
+			width: 100%;
+			height: 250px;
+			object-fit: cover;
+		}
 
-.status-color {
-	color: #3498db; /* Xanh dương */
-	font-weight: bold;
-}
+		.san-bong-info {
+			padding: 15px;
+		}
 
-.type-color {
-	color: #FF0000; /* Xanh đỏ */
-}
+		.san-bong-info h3 {
+			margin: 0 0 10px 0;
+			color: #333;
+		}
 
-.loading {
-	text-align: center;
-	padding: 20px;
-	display: none;
-}
+		.san-bong-info p {
+			margin: 5px 0;
+			color: #666;
+		}
 
-.error-message {
-	color: red;
-	text-align: center;
-	padding: 20px;
-}
-</style>
+		/* New color classes */
+		.price-color {
+			color: #2ecc71;
+			/* Xanh lá cây */
+			font-weight: bold;
+		}
+
+		.status-color {
+			color: #3498db;
+			/* Xanh dương */
+			font-weight: bold;
+		}
+
+		.type-color {
+			color: #FF0000;
+			/* Xanh đỏ */
+		}
+
+		.loading {
+			text-align: center;
+			padding: 20px;
+			display: none;
+		}
+
+		.error-message {
+			color: red;
+			text-align: center;
+			padding: 20px;
+		}
+	</style>
 </head>
+
 <body>
 	<div style="display: flex;">
 		<!-- Sidebar -->
-		<ul
-			class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
-			id="accordionSidebar">
+		<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 			<!-- Sidebar - Brand -->
-			<a
-				class="sidebar-brand d-flex align-items-center justify-content-center"
-				href="/user">
+			<a class="sidebar-brand d-flex align-items-center justify-content-center" href="/user">
 				<div class="sidebar-brand-icon rotate-n-15">
 					<i class="fas fa-laugh-wink"></i>
 				</div>
@@ -163,16 +178,16 @@ body {
 			<div class="sidebar-heading"></div>
 
 			<li class="nav-item active"><a class="nav-link"
-				th:href="@{/user/payment/list/{sharedVariable}(sharedVariable=${sharedVariable})}">
+					th:href="@{/user/payment/list/{sharedVariable}(sharedVariable=${sharedVariable})}">
 					<i class="fas fa-fw fa-tachometer-alt"></i> <span>Lịch sử
 						thanh toán</span>
-			</a></li>
+				</a></li>
 
 			<li class="nav-item active"><a class="nav-link"
-				th:href="@{/user/history/{sharedVariable}(sharedVariable=${sharedVariable})}">
+					th:href="@{/user/history/{sharedVariable}(sharedVariable=${sharedVariable})}">
 					<i class="fas fa-fw fa-tachometer-alt"></i> <span>Các sân đã
 						đặt</span>
-			</a></li>
+				</a></li>
 
 
 			<!-- Sidebar Toggler (Sidebar) -->
@@ -182,155 +197,89 @@ body {
 
 			<!-- Sidebar Message -->
 			<div class="sidebar-card d-none d-lg-flex">
-				<img class="sidebar-card-illustration mb-2"
-					src="img/undraw_rocket.svg" alt="...">
+				<img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
 				<p class="text-center mb-2">
 					<strong></strong>
 				</p>
-				<a class="btn btn-success btn-sm"
-					href="https://startbootstrap.com/theme/sb-admin-pro"></a>
+				<a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro"></a>
 			</div>
 
 		</ul>
 		<!-- End of Sidebar -->
 
 		<!-- Content Wrapper -->
-		<div id="content-wrapper" class="d-flex flex-column"
-			style="width: 100%">
+		<div id="content-wrapper" class="d-flex flex-column" style="width: 100%">
 
 			<!-- Main Content -->
 			<div id="content">
 
 				<!-- Topbar -->
-				<nav
-					class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+				<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
 					<!-- Sidebar Toggle (Topbar) -->
-					<button id="sidebarToggleTop"
-						class="btn btn-link d-md-none rounded-circle mr-3">
+					<button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
 						<i class="fa fa-bars"></i>
 					</button>
-
+					<!-- Sidebar or Navigation Menu -->
+					<a class="navbar-brand" href="#">Trang Thuê Sân Bóng Đá
+						UTEScore</a>
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item active"><a class="nav-link" href="/">Trang
+								Chủ</a></li>
+						<li class="nav-item"><a class="nav-link" href="#services">Dịch
+								Vụ</a></li>
+						<li class="nav-item"><a class="nav-link" href="#pricing">Bảng
+								Giá</a></li>
+						<li class="nav-item"><a class="nav-link" href="#contact">Liên
+								Hệ</a></li>
+					</ul>
 					<!-- Topbar Navbar -->
 					<ul class="navbar-nav ml-auto">
-
-						<!-- Nav Item - Search Dropdown (Visible Only XS) -->
-						<li class="nav-item dropdown no-arrow d-sm-none"><a
-							class="nav-link dropdown-toggle" href="#" id="searchDropdown"
-							role="button" data-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false"> <i class="fas fa-search fa-fw"></i>
-						</a> <!-- Dropdown - Messages -->
-							<div
-								class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-								aria-labelledby="searchDropdown">
-								<form class="form-inline mr-auto w-100 navbar-search">
-									<div class="input-group">
-										<input type="text"
-											class="form-control bg-light border-0 small"
-											placeholder="Search for..." aria-label="Search"
-											aria-describedby="basic-addon2">
-										<div class="input-group-append">
-											<button class="btn btn-primary" type="button">
-												<i class="fas fa-search fa-sm"></i>
-											</button>
-										</div>
-									</div>
-								</form>
-							</div></li>
-
-						<!-- Nav Item - Alerts -->
-						<li class="nav-item dropdown no-arrow mx-1"><a
-							class="nav-link dropdown-toggle" href="#" id="alertsDropdown"
-							role="button" data-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false"> <i class="fas fa-bell fa-fw"></i> <!-- Counter - Alerts -->
-								<span class="badge badge-danger badge-counter">3+</span>
-						</a> <!-- Dropdown - Alerts -->
-							<div
-								class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-								aria-labelledby="alertsDropdown">
-								<h6 class="dropdown-header">Alerts Center</h6>
-								<a class="dropdown-item d-flex align-items-center" href="#">
-									<div class="mr-3">
-										<div class="icon-circle bg-primary">
-											<i class="fas fa-file-alt text-white"></i>
-										</div>
-									</div>
-									<div>
-										<div class="small text-gray-500">December 12, 2019</div>
-										<span class="font-weight-bold">A new monthly report is
-											ready to download!</span>
-									</div>
-								</a> <a class="dropdown-item text-center small text-gray-500"
-									href="#">Show All Alerts</a>
-							</div></li>
-
-						<!-- Nav Item - Messages -->
-						<li class="nav-item dropdown no-arrow mx-1"><a
-							class="nav-link dropdown-toggle" href="#" id="messagesDropdown"
-							role="button" data-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false"> <i class="fas fa-envelope fa-fw"></i>
-								<!-- Counter - Messages --> <span
-								class="badge badge-danger badge-counter">7</span>
-						</a> <!-- Dropdown - Messages -->
-							<div
-								class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-								aria-labelledby="messagesDropdown">
-								<h6 class="dropdown-header">Message Center</h6>
-								<a class="dropdown-item d-flex align-items-center" href="#">
-									<div class="dropdown-list-image mr-3">
-										<img class="rounded-circle" src="img/undraw_profile_1.svg"
-											alt="...">
-										<div class="status-indicator bg-success"></div>
-									</div>
-									<div class="font-weight-bold">
-										<div class="text-truncate">Hi there! I am wondering if
-											you can help me with a problem I've been having.</div>
-										<div class="small text-gray-500">Emily Fowler · 58m</div>
-									</div>
-								</a> <a class="dropdown-item text-center small text-gray-500"
-									href="#">Read More Messages</a>
-							</div></li>
-
-						<div class="topbar-divider d-none d-sm-block"></div>
-
 						<!-- Nav Item - User Information -->
-						<li class="nav-item dropdown no-arrow"><a
-							class="nav-link dropdown-toggle" href="#" id="userDropdown"
-							role="button" data-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false"> <span
-								class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas
-									McGee</span> <img class="img-profile rounded-circle"
-								src="img/undraw_profile.svg">
-						</a> <!-- Dropdown - User Information -->
-							<div
-								class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+						<li class="nav-item dropdown no-arrow"><a class="nav-link dropdown-toggle" href="#"
+								id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+								aria-expanded="false"> <span
+									class="mr-2 d-none d-lg-inline text-gray-600 small">Welcome</span>
+								<img class="img-profile rounded-circle" src="/img/undraw_profile.svg">
+							</a> <!-- Dropdown - User Information -->
+							<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
 								aria-labelledby="userDropdown">
-								<a class="dropdown-item" href="#"> <i
-									class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Profile
-								</a> <a class="dropdown-item" href="#"> <i
-									class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-									Settings
-								</a> <a class="dropdown-item" href="#"> <i
-									class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-									Activity Log
-								</a>
+								<a class="dropdown-item" href="/user">Đặt sân</a> <a class="dropdown-item"
+									href="/user/profilePage">Profile</a>
 								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="#" data-toggle="modal"
-									data-target="#logoutModal"> <i
-									class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+								<a class="dropdown-item" href="/logout" data-toggle="modal" data-target="#logoutModal">
+									<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
 									Logout
 								</a>
-							</div></li>
+							</div>
+						</li>
 					</ul>
-
 				</nav>
 				<!-- End of Topbar -->
-
+				<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Ready to
+									Leave?</h5>
+								<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">×</span>
+								</button>
+							</div>
+							<div class="modal-body">Select "Logout" below if you are
+								ready to end your current session.</div>
+							<div class="modal-footer">
+								<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+								<a class="btn btn-primary" href="/login">Logout</a>
+							</div>
+						</div>
+					</div>
+				</div>
 				<!-- Begin Content -->
 				<div class="container">
 					<div class="search-bar">
-						<input type="text" id="searchInput"
-							placeholder="Tìm kiếm sân bóng...">
+						<input type="text" id="searchInput" placeholder="Tìm kiếm sân bóng...">
 					</div>
 					<div id="sanBongGrid" class="san-bong-grid">
 						<!-- Các sân bóng sẽ được thêm ở đây bằng JavaScript -->
@@ -353,41 +302,41 @@ body {
 
 
 	<script>
-        let sanBongData = [];
-        let filteredData = [];
-        let currentPage = 1;
-        const itemsPerPage = 10;        
+		let sanBongData = [];
+		let filteredData = [];
+		let currentPage = 1;
+		const itemsPerPage = 10;
 
-        // Fetch dữ liệu từ API
-        async function fetchSanBongData() {
-            try {
-                const response = await fetch('/api/cacsan');
-                if (!response.ok) {
-                    throw new Error('Không thể tải dữ liệu sân bóng');
-                }
-                sanBongData = await response.json();
-                console.log(sanBongData);
-                filteredData = sanBongData.filter(Thongtinsan => 
-                (Thongtinsan.status || '').toLowerCase() === 'available'
-            );
-                currentPage = 1;
-                document.getElementById('sanBongGrid').innerHTML = '';
-                loadMoreSanBong();
-            } catch (error) {
-                console.error('Lỗi:', error);
-                document.getElementById('errorMessage').textContent = error.message;
-            }
-        }
+		// Fetch dữ liệu từ API
+		async function fetchSanBongData() {
+			try {
+				const response = await fetch('/api/cacsan');
+				if (!response.ok) {
+					throw new Error('Không thể tải dữ liệu sân bóng');
+				}
+				sanBongData = await response.json();
+				console.log(sanBongData);
+				filteredData = sanBongData.filter(Thongtinsan =>
+					(Thongtinsan.status || '').toLowerCase() === 'available'
+				);
+				currentPage = 1;
+				document.getElementById('sanBongGrid').innerHTML = '';
+				loadMoreSanBong();
+			} catch (error) {
+				console.error('Lỗi:', error);
+				document.getElementById('errorMessage').textContent = error.message;
+			}
+		}
 
-        function renderSanBong(data) {
-            const grid = document.getElementById('sanBongGrid');
-            data.forEach(Thongtinsan => {
-                const card = document.createElement('div');
-                card.className = 'san-bong-card';
-                               
-                const imageUrl = '/img/sanbong.jpg';
+		function renderSanBong(data) {
+			const grid = document.getElementById('sanBongGrid');
+			data.forEach(Thongtinsan => {
+				const card = document.createElement('div');
+				card.className = 'san-bong-card';
 
-                card.innerHTML = `
+				const imageUrl = '/img/sanbong.jpg';
+
+				card.innerHTML = `
                     <img src="${imageUrl}" alt="${Thongtinsan.fieldName || 'Sân Bóng'}">
                     <div class="san-bong-info">
                         <h3 style="font-size: 24px; font-weight: bold;">${Thongtinsan.fieldName || 'Chưa cập nhật'}</h3>
@@ -402,26 +351,26 @@ body {
                         
                     </div>
                 `;
-                grid.appendChild(card);
-            });
-        }        
-        
-        function viewDetails(Thongtinsan) {
-            const modal = document.getElementById('sanBongDetailsModal');
-            const modalContent = modal.querySelector('.modal-content');
-			
-            if (typeof Thongtinsan === 'string') {
-                try {
-                    Thongtinsan = JSON.parse(Thongtinsan.replace(/&apos;/g, "'"));
-                } catch (error) {
-                    console.error('Lỗi parse JSON:', error);
-                    return;
-                }
-            }          
-            
-            console.log('Toàn bộ Thongtinsan:', Thongtinsan);
-            
-            modalContent.innerHTML = `
+				grid.appendChild(card);
+			});
+		}
+
+		function viewDetails(Thongtinsan) {
+			const modal = document.getElementById('sanBongDetailsModal');
+			const modalContent = modal.querySelector('.modal-content');
+
+			if (typeof Thongtinsan === 'string') {
+				try {
+					Thongtinsan = JSON.parse(Thongtinsan.replace(/&apos;/g, "'"));
+				} catch (error) {
+					console.error('Lỗi parse JSON:', error);
+					return;
+				}
+			}
+
+			console.log('Toàn bộ Thongtinsan:', Thongtinsan);
+
+			modalContent.innerHTML = `
                 <div class="text-right">
                     <button onclick="closeModal()" class="text-red-500 font-bold">Đóng</button>
                 </div>
@@ -429,7 +378,7 @@ body {
                     <div class="max-w-xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
                         <div class="bg-green-600 p-4">
                             <h1 class="text-2xl font-bold text-white text-center">
-                                ${Thongtinsan.fieldName || 'Sân Bóng'}
+${Thongtinsan.fieldName || 'Sân Bóng'}
                             </h1>
                         </div>
                         
@@ -479,7 +428,7 @@ body {
                             
                             <a href="/user/yard/details/${Thongtinsan.fieldID}" 
                                class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300">
-                                Đặt Sân
+Đặt Sân
                             </a>
                         </div>
                             
@@ -489,68 +438,69 @@ body {
                 </div>
             `;
 
-            modal.style.display = 'block';
-            console.log(Thongtinsan.fieldid)
-        }               
+			modal.style.display = 'block';
+			console.log(Thongtinsan.fieldid)
+		}
 
-        function closeModal() {
-            const modal = document.getElementById('sanBongDetailsModal');
-            modal.style.display = 'none';
-        }
+		function closeModal() {
+			const modal = document.getElementById('sanBongDetailsModal');
+			modal.style.display = 'none';
+		}
 
-        
-        function loadMoreSanBong() {
-            const loading = document.getElementById('loading');
-            loading.style.display = 'block';
 
-            
-            setTimeout(() => {
-                const startIndex = (currentPage - 1) * itemsPerPage;
-                const endIndex = startIndex + itemsPerPage;
-                const nextPageData = filteredData.slice(startIndex, endIndex);
+		function loadMoreSanBong() {
+			const loading = document.getElementById('loading');
+			loading.style.display = 'block';
 
-                renderSanBong(nextPageData);
-                currentPage++;
-                loading.style.display = 'none';
 
-            
-                if (endIndex >= filteredData.length) {
-                    window.removeEventListener('scroll', checkScrollPosition);
-                }
-            }, 500);
-        }
+			setTimeout(() => {
+				const startIndex = (currentPage - 1) * itemsPerPage;
+				const endIndex = startIndex + itemsPerPage;
+				const nextPageData = filteredData.slice(startIndex, endIndex);
 
-        function checkScrollPosition() {
-            const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-            if (scrollTop + clientHeight >= scrollHeight - 100) {
-                loadMoreSanBong();
-            }
-        }
+				renderSanBong(nextPageData);
+				currentPage++;
+				loading.style.display = 'none';
 
-     // Tìm kiếm sân bóng
-        document.getElementById('searchInput').addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            filteredData = sanBongData.filter(Thongtinsan => 
-            (Thongtinsan.status || '') === 'available' &&
-            (
-                (Thongtinsan.fieldName || '').toLowerCase().includes(searchTerm) || 
-                (Thongtinsan.type || '').toLowerCase().includes(searchTerm) ||      
-                (Thongtinsan.detail || '').toLowerCase().includes(searchTerm) ||
-                (Thongtinsan.price || '').toString().toLowerCase().includes(searchTerm) ||
-                (Thongtinsan.status || '').toLowerCase().includes(searchTerm)
-            )
-        );       
-                         
-            document.getElementById('sanBongGrid').innerHTML = '';
-            renderSanBong(filteredData);
-            currentPage = 1; 
-        });
 
-        // Khởi tạo trang
-        fetchSanBongData();
+				if (endIndex >= filteredData.length) {
+					window.removeEventListener('scroll', checkScrollPosition);
+				}
+			}, 500);
+		}
 
-        // Lắng nghe sự kiện cuộn
-        window.addEventListener('scroll', checkScrollPosition);
-    </script>
+		function checkScrollPosition() {
+			const {scrollTop, clientHeight, scrollHeight} = document.documentElement;
+			if (scrollTop + clientHeight >= scrollHeight - 100) {
+				loadMoreSanBong();
+			}
+		}
+
+		// Tìm kiếm sân bóng
+		document.getElementById('searchInput').addEventListener('input', function (e) {
+			const searchTerm = e.target.value.toLowerCase();
+			filteredData = sanBongData.filter(Thongtinsan =>
+				(Thongtinsan.status || '') === 'available' &&
+				(
+					(Thongtinsan.fieldName || '').toLowerCase().includes(searchTerm) ||
+					(Thongtinsan.type || '').toLowerCase().includes(searchTerm) ||
+					(Thongtinsan.detail || '').toLowerCase().includes(searchTerm) ||
+					(Thongtinsan.price || '').toString().toLowerCase().includes(searchTerm) ||
+					(Thongtinsan.status || '').toLowerCase().includes(searchTerm)
+				)
+			);
+
+			document.getElementById('sanBongGrid').innerHTML = '';
+			renderSanBong(filteredData);
+			currentPage = 1;
+		});
+
+		// Khởi tạo trang
+		fetchSanBongData();
+
+		// Lắng nghe sự kiện cuộn
+		window.addEventListener('scroll', checkScrollPosition);
+	</script>
 </body>
+
 </html>
