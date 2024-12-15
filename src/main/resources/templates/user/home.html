@@ -367,10 +367,9 @@ body {
                 }
                 sanBongData = await response.json();
                 console.log(sanBongData);
-                filteredData = sanBongData
-//                 .filter(Thongtinsan => 
-//                 (Thongtinsan.status || '').toLowerCase() === 'còn sân'
-//             );
+                filteredData = sanBongData.filter(Thongtinsan => 
+                (Thongtinsan.status || '').toLowerCase() === 'available'
+            );
                 currentPage = 1;
                 document.getElementById('sanBongGrid').innerHTML = '';
                 loadMoreSanBong();
@@ -424,7 +423,7 @@ body {
             
             modalContent.innerHTML = `
                 <div class="text-right">
-                    <button onclick="closeModal()" class="text-red-500 font-bold">Đóng X</button>
+                    <button onclick="closeModal()" class="text-red-500 font-bold">Đóng</button>
                 </div>
                 <div class="container mx-auto px-4 py-4">
                     <div class="max-w-xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
