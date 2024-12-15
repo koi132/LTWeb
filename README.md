@@ -24,7 +24,33 @@ Dự án này là một ứng dụng web cho phép người dùng thuê sân bó
    ```
 2. **Set up database:**
 
-   - Tạo một cơ sở dữ liệu mới trong SQL Server (hoặc cơ sở dữ liệu bạn chọn)
+   - Tạo một cơ sở dữ liệu mới trong SQL Server
+   - Chạy dự án lần đầu tiên đã JPA tự tạo các Table
+   - Sau đó chạy SQL dưới đây
+  
+   
+     ```
+     INSERT INTO Users (email, phone, fullName, password, role, verificationCode) VALUES
+     ('user1@example.com', '1234567890', 'User One', 'password1', 'USER', 'code1'),
+     ('user2@example.com', '0987654321', 'User Two', 'password2', 'USER', 'code2'),
+     ('admin@example.com', '1122334455', 'Admin User', 'adminpass', 'ADMIN', 'admincode');
+
+     INSERT INTO thongtinsan (FieldName, Type, Price, Detail, Status, Address, Facilities) VALUES
+     ('Field A', '5', 100.0, 'Nice field for 5 people', 'Còn sân', '123 Street, City', 'Facility 1, Facility 2'),
+     ('Field B', '7', 150.0, 'Nice field for 7 people', 'Còn sân', '456 Avenue, City', 'Facility 3, Facility 4'),
+     ('Field C', '11', 200.0, 'Nice field for 11 people', 'Còn sân', '789 Boulevard, City', 'Facility 5, Facility 6');
+
+     INSERT INTO Booking (FieldID, CustomerName, Phone, BookingDate, StartTime, EndTime, booking_code, status, userId) VALUES
+     (1, 'Customer One', '1234567890', '2024-12-15', '10:00:00', '12:00:00', 'CODE123', 'Chưa nhận sân', 1),
+     (2, 'Customer Two', '0987654321', '2024-12-16', '14:00:00', '16:00:00', 'CODE456', 'Chưa nhận sân', 2),
+     (3, 'Customer Three', '1122334455', '2024-12-17', '18:00:00', '20:00:00', 'CODE789', 'Chưa nhận sân', 3);
+
+     INSERT INTO Payments (booking_id, payment_date, amount, status, userId) VALUES
+     (1, GETDATE(), 100.0, 'PENDING', 1),
+     (2, GETDATE(), 150.0, 'COMPLETED', 2),
+     (3, GETDATE(), 200.0, 'FAILED', 3);
+
+     ```
    - Cập nhật file application.properties với cấu hình cơ sở dữ liệu của bạn:
 
    ```
