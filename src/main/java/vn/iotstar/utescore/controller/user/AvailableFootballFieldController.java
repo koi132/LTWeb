@@ -28,7 +28,7 @@ public class AvailableFootballFieldController {
 		return "user/home";
 	}
 
-//	@GetMapping("/user/cacsan")
+//	@GetMapping("/cacsan")
 //	public String loadCacSanSanCo() {
 //		return "user/sanbong-list";
 //	}

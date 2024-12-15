@@ -24,7 +24,7 @@ public class Thongtinsan {
     private String detail; 
     
     @Column(name = "Status", nullable = false, length = 50)
-    private String status = "Còn sân";
+    private String status = "available";
     
     
     @Column(name = "Address", length = 255)
