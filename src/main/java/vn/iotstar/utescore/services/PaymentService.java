@@ -38,4 +38,11 @@ public class PaymentService {
 		return paymentRepository.save(payment);
 	}
 
+	 public Double getMonthlyRevenue(int month, int year) {
+	        return paymentRepository.calculateMonthlyRevenue(month, year);
+	    }
+
+	    public Double getAnnualRevenue(int year) {
+	        return paymentRepository.calculateAnnualRevenue(year);
+	    }
 }

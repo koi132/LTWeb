@@ -38,7 +38,7 @@ public class AdminController {
      // In dữ liệu vào console
 	    System.out.println("user: " + users);
         model.addAttribute("users", users);
-        return "admin/index";
+        return "admin/adminhome";
     }
 
     @GetMapping("/admin/user/delete/{userId}")
@@ -86,7 +86,7 @@ public class AdminController {
 
             userService.updateUser(existingUser);
             redirectAttributes.addFlashAttribute("success", "Cập nhật thành công.");
-            return "redirect:/admin/users"; // Chuyển hướng về trang danh sách người dùng
+            return "redirect:/admin"; // Chuyển hướng về trang danh sách người dùng
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Cập nhật thất bại. Vui lòng thử lại.");
             return "redirect:/admin"; // Quay lại trang chỉnh sửa
