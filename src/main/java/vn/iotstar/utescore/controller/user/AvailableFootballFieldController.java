@@ -25,7 +25,7 @@ public class AvailableFootballFieldController {
 	public String dangNhap(Model model) {
 		int sharedVariable = GlobalVariables.sharedVariable;
 		model.addAttribute("sharedVariable", sharedVariable);
-		return "user/home";
+		return "user/sanbong-list";
 	}
 
 //	@GetMapping("/cacsan")
